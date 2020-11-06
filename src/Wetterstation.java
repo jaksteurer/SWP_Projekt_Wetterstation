@@ -2,6 +2,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -21,42 +24,39 @@ public class Wetterstation {
 
 	static String dGetData = "";
 	static String fcGetData = "";
+	static Map<String, Object> dailyWeatherMap;
+	static Map<String, Object> dailyWeatherMapWind;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
+		//Verbindung zur Datenbank herstellen
+		SQLConnection connector = new SQLConnection();
+		Connection con = connector.getConnection();		
+		//Ort eingeben lassen
 		String defPlace = getConfigData();
-		//System.out.println(defPlace);
 		String place = requestPlace();
 		if (place.equals("d")) {
 			place = defPlace;
-			readCurrentWeatherAPI(place);
-			readForecastWeatherAPI(place);
-			showCurrentWeather();
-			showForecastWeather();
-		/*}if(place !=null) {
-			System.err.println("Wetter für den Ort "+place+":");
-			readCurrentWeatherAPI(place);
-			readForecastWeatherAPI(place);
-			currentWeather();
-			forecastWeather();*/
-		}else {
-			//System.out.println("ungültiger Ort!");
 			System.err.println("Wetter für den Ort "+place+":");
 			readCurrentWeatherAPI(place);
 			readForecastWeatherAPI(place);
 			showCurrentWeather();
 			showForecastWeather();
+			insertToDatabase(con, place);
+		}if(place !=null) {
+			System.err.println("Wetter für den Ort "+place+":");
+			readCurrentWeatherAPI(place);
+			readForecastWeatherAPI(place);
+			showCurrentWeather();
+			showForecastWeather();
+			insertToDatabase(con, place);
 		}
-		//showCurrentWeather();
-		//forecastWeather();
-		//Datum(0);
+		connector.releaseConnection(con);
 	}
 	@SuppressWarnings("unchecked")
 	public static void showCurrentWeather() {
-		System.out.println("------Current Wetter API------");
-		//aktuelles Wetter
 		try {
 			//Konvertieren des Json Strings "inline" in eine Java Map
-			Map<String, Object> dailyWeatherMap = new Gson().fromJson(dGetData, Map.class);
+			Map<String, Object> Map = new Gson().fromJson(dGetData, Map.class);
 			//Java Map ausgeben mit allen Werten und den Keys
 			/*for (Map.Entry<String, Object> key : dailyWeatherMap.entrySet()) {
 					System.out.println(key.getKey()+"="+key.getValue());
@@ -66,22 +66,25 @@ public class Wetterstation {
 			//Werte des Keys (falls Key mehr Werte hat) in eine weiteren Map speichern
 			//und davon wieder Map.get("Objektname") herausfiltern um genau den
 			//gewünschten Wert zu bekommen
-			Map<String, Object> main = (Map<String, Object>) dailyWeatherMap.get("main");
+			Map<String, Object> main = (Map<String, Object>) Map.get("main");
 			System.out.println("aktuelle Temperatur:\t\t"+main.get("temp")+" C°");
 			System.out.println("max. Temperatur:\t\t"+main.get("temp_max")+" C°");
 			System.out.println("min. Temperatur:\t\t"+main.get("temp_min")+" C°");
 			System.out.println("Luftfeuchtigkeit:\t\t"+main.get("humidity")+" %");
 			//Wert welcher für Wind benötigt wird steht noch ein einer weiteren Map in der main Map
-			Map<String, Object> wind = (Map<String, Object>) dailyWeatherMap.get("wind");
+			Map<String, Object> wind = (Map<String, Object>) Map.get("wind");
 			System.out.println("Wind:\t\t\t\t"+wind.get("speed")+" Km/h");
-		}catch (Exception e){
-			System.out.println("Fehler: "+e);//e.printStackTrace();
-			System.out.println("[currentWeather]Bitte überprüfen ob sinnvoller Ort eingegeben wurde!");
+			dailyWeatherMapWind = wind;
+			dailyWeatherMap = main;
+		}catch (NullPointerException e){
+			//Wird freigelassen weil bei falscher Ortseingabe bei jeder Methode diese Ausgabe erscheint
+			//System.out.println("[showCurrenttWeather]Sinnvollen Ort eingeben");
+		}catch(Exception e) {
+			System.out.println("[showCurrenttWeather]Fehler liegt nicht am Ort! Fehler: "+e);
 		}
 	}
 	@SuppressWarnings("unchecked")
 	public static void showForecastWeather() {
-		System.out.println("------Forecast Wetter API------");
 		try {
 			//Konvertieren des Json Strings "inline" in eine Java Map
 			Map<String, Object> forecastWeatherMap = new Gson().fromJson(fcGetData, Map.class);
@@ -146,9 +149,11 @@ public class Wetterstation {
 			System.out.println("\tLuftfeuchtigkeit:\t"+data6.get("rh")+" %");
 			System.out.println("\tWind:\t\t\t"+Math.round((double) data6.get("wind_spd")*100)/100.+" Km/h");
 			System.out.println("\tNiederschlag:\t\t"+data6.get("pop")+" %");
-		}catch (Exception e){
-			System.out.println("Fehler: "+e);//e.printStackTrace();
-			System.out.println("[forecasttWeather]Bitte überprüfen ob sinnvoller Ort eingegeben wurde!");	
+		}catch (NullPointerException e){
+			//Wird freigelassen weil bei falscher Ortseingabe bei jeder Methode diese Ausgabe erscheint
+			//System.out.println("[forecasttWeather]Sinnvollen Ort eingeben");
+		}catch(Exception e) {
+			System.out.println("[forecasttWeather]Fehler liegt nicht am Ort! Fehler: "+e);
 		}
 	}
 	public static String requestPlace() {
@@ -158,11 +163,11 @@ public class Wetterstation {
 			System.out.print("Ort in Österreich eingeben: ");
 			place = sc.next();
 			sc.close();
-		}catch (Exception e) {
+		}catch (NullPointerException e) {
 			System.out.println("existierenden Ort eingeben");
+			return null;
 		}	
 		return place;
-
 	}
 	public static void Datum(int datum) {
 		// Instanz vom Typ Kalender wird erstellt
@@ -209,9 +214,9 @@ public class Wetterstation {
 			defaultPlace = properties.getProperty("defaultPlace");
 			stream.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("[getConfigData]" + e);
+			return null;
 		}
-
 		return defaultPlace;
 	}
 	public static void readCurrentWeatherAPI(String place) {
@@ -226,7 +231,8 @@ public class Wetterstation {
 			//System.out.println("Code: "+dResponsecode);
 			if(dResponsecode != 200) {
 				System.out.println("Bitte sinnvollen Ort eingeben!"); 
-				System.out.println("[DailyAPI]HttpResonseCode: "+dResponsecode);
+				//System.out.println("[readCurrentWeatherAPI]HttpResonseCode: "+dResponsecode);
+				//System.out.println("Help for responsecodes: https://www.tutorialspoint.com/servlets/servlets-http-status-codes.htm");
 			}else {
 				Scanner sc = new Scanner(dUrl.openStream());
 				while(sc.hasNext()) {
@@ -238,7 +244,6 @@ public class Wetterstation {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 	public static void readForecastWeatherAPI(String place) {
 		//save forecast weather json request in String
@@ -251,9 +256,9 @@ public class Wetterstation {
 			int fcResponsecode = fcConn.getResponseCode();
 			//System.out.println("Code: "+fcResponsecode);
 			if(fcResponsecode != 200) {
-				System.out.println("Bitte sinnvollen Ort eingeben!");
-				System.out.println("[ForecastAPI]HttpResonseCode: "+fcResponsecode);
-				System.out.println("Help for responsecodes: https://www.tutorialspoint.com/servlets/servlets-http-status-codes.htm");
+				//System.out.println("Bitte sinnvollen Ort eingeben!");
+				//System.out.println("[readForecastWeatherAPI]HttpResonseCode: "+fcResponsecode);
+				//System.out.println("Help for responsecodes: https://www.tutorialspoint.com/servlets/servlets-http-status-codes.htm");
 			}else {
 				Scanner sc = new Scanner(fcUrl.openStream());
 				while(sc.hasNext()) {
@@ -265,9 +270,36 @@ public class Wetterstation {
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public static void insertToDatabase(Connection con, String place)
+			throws SQLException {
+		String sql = "INSERT INTO temperatures values (NOW(),?,?,?,?,?)"
+				+ "	ON DUPLICATE KEY" + 
+				"	UPDATE maxtempInCelsius = VALUES(maxtempInCelsius)," + 
+				"	mintempInCelsius = VALUES(mintempInCelsius)," + 
+				"	humidityInPercent = VALUES(humidityInPercent)," + 
+				"	windInKilometerPerHour = VALUES(windInKilometerPerHour);";
+		PreparedStatement stm = null;
+		try {
+			stm = con.prepareStatement(sql);
+			stm.setString(1, place);
+			stm.setDouble(2, (double) dailyWeatherMap.get("temp_max"));
+			stm.setDouble(3, (double) dailyWeatherMap.get("temp_min"));
+			stm.setDouble(4, (double) dailyWeatherMap.get("humidity"));
+			stm.setDouble(5, (double) dailyWeatherMapWind.get("speed"));
+			stm.executeUpdate();
+		}catch(NullPointerException e) {
+			//Wird freigelassen weil bei falscher Ortseingabe bei jeder Methode diese Ausgabe erscheint
+			//System.out.println("[insertToDatabase] Sinnvollen Ort eingeben");
+		}catch(Exception e) {
+			System.out.println("[insertToDatabase] Fehler liegt nicht am Ort! Fehler:"+e);
+		}
+		finally {
+			if (stm != null)
+				stm.close();
+		}
 
 	}
-
 
 
 
