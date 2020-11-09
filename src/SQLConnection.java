@@ -4,7 +4,9 @@ import java.sql.SQLException;
 
 public class SQLConnection {
 
-	 //METHODEN HOLZMANN
+	public static void main(String[] args) {
+		
+	}
 	 public Connection getConnection() throws ClassNotFoundException, SQLException {
 		try {
 			Connection con = null;
@@ -18,7 +20,9 @@ public class SQLConnection {
 			System.out.println("Verbindung erfolgreich");
 			return con;
 		}catch(Exception e) {
-			System.out.println("Fehler: "+e);
+			System.out.println("Verbindung Fehlgeschlagen! Werte werden nicht in der Datenbank gespeichert!"
+					+ "\nKontrollieren ob MySQL Workbench geöffnet ist.");
+			System.out.println("[getConnection]Fehler: "+e+"\n");
 		}
 		return null;
 	}
