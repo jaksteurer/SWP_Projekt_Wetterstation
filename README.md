@@ -34,7 +34,7 @@ Als Datenquelle wurden 2 APIs verwendet und das Userinterface wurde mithilfe von
 - JavaFx
 - MySql Datenbank
 - 1 API: <a href="https://Openweathermap.com">Openweathermap.com</a>
-- 2 API: <a href="https://Weatherbit.io.com">Weatherbit.io</a> 
+- 2 API: <a href="https://Weatherbit.io">Weatherbit.io</a> 
 - JavaFx Scene Builder
 
 Clone the repository.
