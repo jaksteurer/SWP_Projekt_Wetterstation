@@ -30,6 +30,6 @@ public class SQLConnection {
 			throws SQLException {
 		if (con != null)
 			con.close();
-		System.out.println("Verbindung erfolgreich getrennt");
+		//System.out.println("Verbindung erfolgreich getrennt");
 	}	
 }

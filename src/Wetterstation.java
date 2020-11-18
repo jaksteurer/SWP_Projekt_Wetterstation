@@ -28,31 +28,44 @@ public class Wetterstation {
 	static String fcGetData = "";
 	static Map<String, Object> dailyWeatherMap;
 	static Map<String, Object> dailyWeatherMapWind;
+	static String weiter = null;
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException{
 		//Verbindung zur Datenbank herstellen
 		SQLConnection connector = new SQLConnection();
 		Connection con = connector.getConnection();
 
-		//Ort eingeben lassen
 		String defPlace = getConfigData();
 		String place = requestPlace();
-		if (place.equals("d")) {
-			place = defPlace;
-			System.err.println("Wetter für den Ort "+place+":");
-			readCurrentWeatherAPI(place);
-			readForecastWeatherAPI(place);
-			showCurrentWeather();
-			showForecastWeather();
-			insertToDatabase(con, place);
-		}if(place !=null) {
-			System.err.println("Wetter für den Ort "+place+":");
-			readCurrentWeatherAPI(place);
-			readForecastWeatherAPI(place);
-			showCurrentWeather();
-			showForecastWeather();
-			insertToDatabase(con, place);
-		}
+
+		Scanner scan = new Scanner(System.in);
+		do {
+			if (place.equals("d")) {
+				place = defPlace;
+				System.err.println("Wetter für den Defalut-Ort "+place+":");
+				readCurrentWeatherAPI(place);
+				readForecastWeatherAPI(place);
+				showCurrentWeather();
+				showForecastWeather();
+				insertToDatabase(con, place);
+			}if(place != null && !place.equals("d")) {
+				System.err.println("Wetter für den Ort "+place+":");
+				readCurrentWeatherAPI(place);
+				readForecastWeatherAPI(place);
+				showCurrentWeather();
+				showForecastWeather();
+				insertToDatabase(con, place);
+			}else {
+				System.out.println("Eingabe überprüfen");
+			}
+			//Statt den if's nur "Hallo" funktioniert ohne Probleme
+			//System.out.println("Hallo");
+			
+			System.out.print("Weiteren Ort eingeben? [j/n]: ");
+			weiter = scan.next();
+		}while(weiter.equals("j"));
+		scan.close();
+
 		connector.releaseConnection(con);
 	}
 	public static String Datum(int datum) {
