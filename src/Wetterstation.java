@@ -22,10 +22,10 @@ public class Wetterstation {
 	static String fcGetData = "";
 
 	static double tempOW ;
-	static double temp_max;
-	static double temp_min ;
-	static double humidity ;
-	static double windspeed ;
+	static double temp_maxOW;
+	static double temp_minOW ;
+	static double humidityOW ;
+	static double windspeedOW ;
 
 	static double tempWB ;
 	static double max_tempWB;
@@ -47,10 +47,9 @@ public class Wetterstation {
 		SQLConnection connector = new SQLConnection();
 		Connection con = connector.getConnection();
 
-
 		//Konfigurationsdatei
-		ConfigData confData = new ConfigData();
-		String defPlace = confData.getConfigData();
+		ConfigFileReader confData = new ConfigFileReader();
+		String defPlace = confData.getConfigFile();
 
 		//Ort abfragen
 		String place = requestPlace();
@@ -71,7 +70,7 @@ public class Wetterstation {
 			readForecastWeatherAPI(place);
 			showCurrentWeather(place);
 			showForecastWeather(place);
-			insertToDatabase(con, place);
+			//insertToDatabase(con, place);
 		}else {
 			System.out.println("Eingabe überprüfen");
 		}
@@ -141,36 +140,36 @@ public class Wetterstation {
 			JsonObject jsondata =  new JsonParser().parse(dGetData).getAsJsonObject();
 			//System.out.println(jsonObject);
 			tempOW = jsondata.getAsJsonObject("main").get("temp").getAsDouble();
-			temp_max = jsondata.getAsJsonObject("main").get("temp_max").getAsDouble();
-			temp_min = jsondata.getAsJsonObject("main").get("temp_min").getAsDouble();
-			humidity = jsondata.getAsJsonObject("main").get("humidity").getAsDouble();
-			windspeed = jsondata.getAsJsonObject("wind").get("speed").getAsDouble();
+			temp_maxOW = jsondata.getAsJsonObject("main").get("temp_max").getAsDouble();
+			temp_minOW = jsondata.getAsJsonObject("main").get("temp_min").getAsDouble();
+			humidityOW = jsondata.getAsJsonObject("main").get("humidity").getAsDouble();
+			windspeedOW = jsondata.getAsJsonObject("wind").get("speed").getAsDouble();
 
-			//Durchschnittswerte Berechnen
+			//Durchschnittswerte Berechnen (Zusatzaufgabe)
 			tempAV = Math.round((tempOW+tempWB)/2*100)/100.;
-			max_tempAV =Math.round((temp_max+max_tempWB)/2*100)/100.;
-			low_tempAV =Math.round((temp_min+low_tempWB)/2*100)/100.;
-			humidityAV =Math.round((humidity+rhWB)/2*100)/100.;
-			windspeedAV =Math.round((windspeed+wind_spdWB)/2*100)/100.;
+			max_tempAV =Math.round((temp_maxOW+max_tempWB)/2*100)/100.;
+			low_tempAV =Math.round((temp_minOW+low_tempWB)/2*100)/100.;
+			humidityAV =Math.round((humidityOW+rhWB)/2*100)/100.;
+			windspeedAV =Math.round((windspeedOW+wind_spdWB)/2*100)/100.;
 
 			//Ausgabe in der Console
 			System.out.println("Heute: ("+Datum(0)+")");
 			System.out.println("\t\t\t\topenweather.com\t\tWeatherbit.io\t\tDurchschnitt");
-			System.out.println("\taktuelle Temperatur:\t"+tempOW+" C°\t\t\t"+tempWB+" C°\t\t\t"+tempAV+" C°"); 
-			System.out.println("\tMax Temperatur:\t\t"+temp_max+" C°\t\t\t"+max_tempWB+" C°\t\t\t"+max_tempAV+" C°");
-			System.out.println("\tMin Temperatur:\t\t"+temp_min+" C°\t\t\t"+low_tempWB+" C°\t\t\t"+low_tempAV+" C°");
-			System.out.println("\tLuftfeuchtigkeit:\t"+humidity+" %\t\t\t"+rhWB+"%\t\t\t"+humidityAV+" %");
-			System.out.println("\tWind:\t\t\t"+windspeed+" Km/h\t\t"+wind_spdWB+"Km/h\t\t"+windspeedAV+" Km/h");
+			System.out.println("\taktuelle Temperatur:\t"+tempOW+" C°  \t\t"+tempWB+" C°  \t\t"+tempAV+" C°"); 
+			System.out.println("\tMax Temperatur:\t\t"+temp_maxOW+" C°  \t\t"+max_tempWB+" C°  \t\t"+max_tempAV+" C°");
+			System.out.println("\tMin Temperatur:\t\t"+temp_minOW+" C°  \t\t"+low_tempWB+" C°  \t\t"+low_tempAV+" C°");
+			System.out.println("\tLuftfeuchtigkeit:\t"+humidityOW+" %  \t\t"+rhWB+" %  \t\t"+humidityAV+" %");
+			System.out.println("\tWind:\t\t\t"+windspeedOW+" Km/h  \t\t"+wind_spdWB+" Km/h  \t\t"+windspeedAV+" Km/h");
 
 			//ICON id anfordern
 			JsonObject weather =  jsondata.getAsJsonArray("weather").get(0).getAsJsonObject();
 			//System.out.println("weather: "+weather);
 			String iconId = weather.getAsJsonObject().get("icon").getAsString();
-			System.out.println("\tICON_ID:\t\t"+iconId+"\t\t\t"+iconWB);
+			System.out.println("\tICON_ID:\t\t  "+iconId+"\t\t\t"+iconWB);
 
 			//ImageDownloader
 			ImageDownloader today = new ImageDownloader();
-			today.imageDownloaderOW(iconId, place+"_"+Datum(0));
+			today.imageDownloaderOW(iconId, Datum(0)+"_"+place);
 		}catch (NullPointerException e){
 			/*
 			 * Wird freigelassen weil bei falscher Ortseingabe bei jeder Methode diese Ausgabe erscheint
@@ -212,7 +211,7 @@ public class Wetterstation {
 			System.out.println("\tICON-ID:\t\t"+Icon1.get("icon"));
 			//ImageDownloader
 			ImageDownloader tomorrow = new ImageDownloader();
-			tomorrow.imageDownloaderWB(Icon1.get("icon").toString(), place+"_"+data1.get("datetime").toString());
+			tomorrow.imageDownloaderWB(Icon1.get("icon").toString(), data1.get("datetime").toString()+"_"+place);
 
 			//forecast day 2
 			Map<Object, Object>data2 = (Map<Object, Object>) data.get(2);
@@ -226,7 +225,7 @@ public class Wetterstation {
 			System.out.println("\tICON-ID:\t\t"+Icon2.get("icon"));
 			//ImageDownloader
 			ImageDownloader two = new ImageDownloader();
-			two.imageDownloaderWB(Icon2.get("icon").toString(), place+"_"+data2.get("datetime").toString());
+			two.imageDownloaderWB(Icon2.get("icon").toString(), data2.get("datetime").toString()+"_"+place);
 
 			//forecast day 3
 			Map<Object, Object>data3 = (Map<Object, Object>) data.get(3);
@@ -240,7 +239,7 @@ public class Wetterstation {
 			System.out.println("\tICON-ID:\t\t"+Icon3.get("icon"));
 			//ImageDownloader
 			ImageDownloader three = new ImageDownloader();
-			three.imageDownloaderWB(Icon3.get("icon").toString(), place+"_"+data3.get("datetime").toString());
+			three.imageDownloaderWB(Icon3.get("icon").toString(), data3.get("datetime").toString()+"_"+place);
 
 			//forecast day 4
 			Map<Object, Object>data4 = (Map<Object, Object>) data.get(4);
@@ -254,7 +253,7 @@ public class Wetterstation {
 			System.out.println("\tICON-ID:\t\t"+Icon4.get("icon"));
 			//ImageDownloader
 			ImageDownloader four = new ImageDownloader();
-			four.imageDownloaderWB(Icon4.get("icon").toString(), place+"_"+data4.get("datetime").toString());
+			four.imageDownloaderWB(Icon4.get("icon").toString(), data4.get("datetime").toString()+"_"+place);
 
 			//forecast day 5
 			Map<Object, Object>data5 = (Map<Object, Object>) data.get(5);
@@ -268,7 +267,7 @@ public class Wetterstation {
 			System.out.println("\tICON-ID:\t\t"+Icon5.get("icon"));
 			//ImageDownloader
 			ImageDownloader five = new ImageDownloader();
-			five.imageDownloaderWB(Icon5.get("icon").toString(), place+"_"+data5.get("datetime").toString());
+			five.imageDownloaderWB(Icon5.get("icon").toString(), data5.get("datetime").toString()+"_"+place);
 
 		}catch (NullPointerException e){
 			/*
@@ -309,37 +308,8 @@ public class Wetterstation {
 		iconWB = Icon0.get("icon").toString();
 		//ImageDownloader
 		ImageDownloader today = new ImageDownloader();
-		today.imageDownloaderWB(Icon0.get("icon").toString(), place+"_"+data0.get("datetime").toString());
+		today.imageDownloaderWB(Icon0.get("icon").toString(), data0.get("datetime").toString()+"_"+place);
 	}	
-//	@SuppressWarnings("unchecked")
-//	public static void showForecastWeatherToday() {
-//		//Konvertieren des Json Strings "inline" in eine Java Map
-//		Map<String, Object> foreDayMap = new Gson().fromJson(fcGetData, Map.class);
-//		/*
-//		 * Java Map ausgeben mit allen Werten und den Keys
-//		 *		for (Map.Entry<String, Object> key : forecastWeatherMap.entrySet()) {
-//		 *					System.out.println(key.getKey()+"="+key.getValue());
-//		 *		}
-//		 * Werte eines einzelnen Keys anzeigen lassen
-//		 * System.out.println("data: "+ forecastWeatherMap.get("data"));
-//		 * 
-//		 *  Werte des Keys (falls Key mehr Werte hat) in eine weiteren Map speichern
-//		 *  und davon wieder Map.get("Objektname") herausfiltern um genau den
-//		 *  gewünschten Wert zu bekommen.
-//		 */
-//		List<Object> data = (List<Object>) foreDayMap.get("data");
-//		//System.out.println("data: "+data);
-//
-//		Map<Object, Object>data0 = (Map<Object, Object>) data.get(0);
-//		//System.out.println("heute: ("+data0.get("datetime")+")");
-//		tempWB=(double) data0.get("temp");									//aktuelle Temp
-//		max_tempWB = (double) data0.get("max_temp");						//maximal Temp
-//		low_tempWB = (double) data0.get("low_temp");						//minimal Temp
-//		rhWB = (double)data0.get("rh");										//Luftfeuchtigkeit
-//		wind_spdWB = Math.round((double) data0.get("wind_spd")*100)/100.;	//Wind
-//		Map<String,Object>Icon0 = (Map<String, Object>)data0.get("weather");//Icon
-//		iconWB = Icon0.get("icon").toString();
-//	}	
 	public static String requestPlace() {
 		String place=null;
 		try {	
@@ -438,7 +408,6 @@ public class Wetterstation {
 			if (stm != null)
 				stm.close();
 		}
-
 	}
 
 

@@ -17,7 +17,7 @@ public class ImageDownloader {
 		try {
 			URL url = new URL ("http://openweathermap.org/img/w/"+iconId+".png");
 			image = ImageIO.read(url);
-			ImageIO.write(image, "png", new File(".\\pictures\\OW_"+name+".png"));
+			ImageIO.write(image, "png", new File(".\\pictures\\"+name+"_OW.png"));
 			//System.out.println("success");
 		}catch(IOException e) {
 			System.out.println("[imageDownloaderOW] Fehler: "+e);
@@ -28,7 +28,7 @@ public class ImageDownloader {
 		try {
 			URL url = new URL ("https://www.weatherbit.io/static/img/icons/"+iconId+".png");
 			image = ImageIO.read(url);
-			ImageIO.write(image, "png", new File(".\\pictures\\WB_"+name+".png"));
+			ImageIO.write(image, "png", new File(".\\pictures\\"+name+"_WB.png"));
 			//System.out.println("success");
 		}catch(IOException e) {
 			System.out.println("[imageDownloaderWB] Fehler: "+e);

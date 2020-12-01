@@ -3,14 +3,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ConfigData {
+public class ConfigFileReader {
 
 	public static void main(String[] args) {
-		//getConfigData();
+		//getConfigFile();
 		
 	}
-	public String getConfigData() {
-		String path = ".\\Konfigurationsdatei.properties";
+	public String getConfigFile() {
+		String path = ".\\configFile\\Konfigurationsdatei.properties";
 		String defaultPlace = "";
 		try {
 			Properties properties = new Properties();
@@ -21,7 +21,7 @@ public class ConfigData {
 			//System.out.println(defaultPlace + "\t success");
 			stream.close();
 		} catch (IOException e) {
-			System.out.println("[getConfigData]" + e);
+			System.out.println("[getConfigFile] Fehler: " + e);
 			return null;
 		}
 		return defaultPlace;
