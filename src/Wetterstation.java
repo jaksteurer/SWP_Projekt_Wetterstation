@@ -165,7 +165,7 @@ public class Wetterstation {
 			JsonObject weather =  jsondata.getAsJsonArray("weather").get(0).getAsJsonObject();
 			//System.out.println("weather: "+weather);
 			String iconId = weather.getAsJsonObject().get("icon").getAsString();
-			System.out.println("\tICON_ID:\t\t  "+iconId+"\t\t\t"+iconWB);
+			System.out.println("\tICON_ID:\t\t"+iconId+"\t\t\t"+iconWB);
 
 			//ImageDownloader
 			ImageDownloader today = new ImageDownloader();
