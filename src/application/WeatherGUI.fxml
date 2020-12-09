@@ -12,7 +12,7 @@
    <children>
       <ImageView fitHeight="672.0" fitWidth="1125.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../Projekt_Wetterstation/GUI/picturesGUI/basicbg.jpg" />
+            <Image url="@../../pictures/basicbg.jpg" />
          </image>
       </ImageView>
       <Pane prefHeight="633.0" prefWidth="1125.0">
@@ -62,13 +62,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="percip0" alignment="CENTER_RIGHT" layoutX="800.0" layoutY="294.0" prefHeight="36.0" prefWidth="115.0" text="0,00  %">
+            <Label fx:id="percip0" alignment="CENTER_RIGHT" layoutX="794.0" layoutY="294.0" prefHeight="36.0" prefWidth="115.0" text="0,00  %">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-			<TextField fx:id="textfeld" layoutX="539.0" layoutY="57.0" onAction="#requestPlace" onInputMethodTextChanged="#requestPlace" prefHeight="31.0" prefWidth="297.0" promptText="Ort eingeben" />
-            <Button fx:id="button" layoutX="836.0" layoutY="57.0" mnemonicParsing="false" onInputMethodTextChanged="#requestPlace" prefHeight="31.0" prefWidth="115.0" text="Enter" />
+			<TextField fx:id="textfeld" layoutX="539.0" layoutY="57.0" onAction="#requestPlace" onInputMethodTextChanged="#requestPlace" prefHeight="31.0" prefWidth="377.0" promptText="Ort eingeben" />
             <ImageView fx:id="image1" fitHeight="88.0" fitWidth="83.0" layoutX="129.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Projekt_Wetterstation/GUI/ImagesWB/c02d.png" />
@@ -94,77 +93,77 @@
                   <Image url="@../../../../Projekt_Wetterstation/GUI/ImagesWB/c02d.png" />
                </image>
             </ImageView>
-            <Label fx:id="maxT1" alignment="CENTER" layoutX="81.0" layoutY="451.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="maxT1" alignment="CENTER" layoutX="94.0" layoutY="451.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="maxT2" alignment="CENTER" layoutX="277.0" layoutY="451.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="maxT2" alignment="CENTER" layoutX="290.0" layoutY="451.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="maxT3" alignment="CENTER" layoutX="468.0" layoutY="451.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="maxT3" alignment="CENTER" layoutX="494.0" layoutY="451.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="maxT4" alignment="CENTER" layoutX="661.0" layoutY="451.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="maxT4" alignment="CENTER" layoutX="683.0" layoutY="451.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="maxT5" alignment="CENTER" layoutX="866.0" layoutY="451.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="maxT5" alignment="CENTER" layoutX="888.0" layoutY="451.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="minT1" alignment="CENTER" layoutX="80.0" layoutY="570.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="minT1" alignment="CENTER" layoutX="94.0" layoutY="570.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="minT2" alignment="CENTER" layoutX="276.0" layoutY="570.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="minT2" alignment="CENTER" layoutX="290.0" layoutY="570.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="minT3" alignment="CENTER" layoutX="468.0" layoutY="570.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="minT3" alignment="CENTER" layoutX="494.0" layoutY="570.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="minT4" alignment="CENTER" layoutX="661.0" layoutY="570.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="minT4" alignment="CENTER" layoutX="683.0" layoutY="570.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="minT5" alignment="CENTER" layoutX="866.0" layoutY="570.0" prefHeight="36.0" prefWidth="180.0" text="0,00 °C">
+            <Label fx:id="minT5" alignment="CENTER" layoutX="888.0" layoutY="570.0" prefHeight="36.0" prefWidth="153.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="date1" alignment="CENTER" layoutX="130.0" layoutY="414.0" text="Tomorrow">
+            <Label fx:id="date1" alignment="CENTER" layoutX="94.0" layoutY="414.0" prefHeight="27.0" prefWidth="153.0" text="Tomorrow">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="date2" alignment="CENTER" layoutX="341.0" layoutY="414.0" text="2 days">
+            <Label fx:id="date2" alignment="CENTER" layoutX="290.0" layoutY="414.0" prefHeight="27.0" prefWidth="153.0" text="2 days">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="date3" alignment="CENTER" layoutX="532.0" layoutY="414.0" text="3 days">
+            <Label fx:id="date3" alignment="CENTER" layoutX="494.0" layoutY="414.0" prefHeight="27.0" prefWidth="153.0" text="3 days">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="date4" alignment="CENTER" layoutX="725.0" layoutY="414.0" text="4 days">
+            <Label fx:id="date4" alignment="CENTER" layoutX="683.0" layoutY="414.0" prefHeight="27.0" prefWidth="153.0" text="4 days">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="date5" alignment="CENTER" layoutX="931.0" layoutY="414.0" text="5 days">
+            <Label fx:id="date5" alignment="CENTER" layoutX="888.0" layoutY="414.0" prefHeight="27.0" prefWidth="153.0" text="5 days">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>

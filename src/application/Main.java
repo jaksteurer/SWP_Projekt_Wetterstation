@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
  
 public class Main  extends Application {
-    
   
     @Override
     public void start(Stage primaryStage) {
@@ -16,7 +15,7 @@ public class Main  extends Application {
             Parent root = FXMLLoader.load(getClass()
                     .getResource("./WeatherGUI.fxml"));
  
-            primaryStage.setTitle("My Application");
+            primaryStage.setTitle("Wetter Application");
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
          

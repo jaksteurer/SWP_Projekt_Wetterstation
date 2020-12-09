@@ -13,6 +13,7 @@ public class ImageDownloader {
 
 		// imageDownloaderOW("04d");
 		// imageDownloaderWB("r01d");
+		getImageFromFolder();
 	}
 	public void imageDownloaderOW (String iconId) {
 		BufferedImage image = null;
@@ -36,5 +37,15 @@ public class ImageDownloader {
 			System.out.println("[imageDownloaderWB] Fehler: "+e);
 		}
 	}
+	public static void getImageFromFolder() {//String iconId) {
 
+		try {
+			BufferedImage img = ImageIO.read(new File("./pictures/c04d.png"));
+			System.out.println(img);
+		} catch (IOException e) {
+			System.out.println("[getImageFromFolder] Fehler: "+e);
+		}
+		//		String url = "./pictures/c04d.png"; //+iconId+".png";		
+		//		return getImageIcon(url).getImage();
+	}
 }

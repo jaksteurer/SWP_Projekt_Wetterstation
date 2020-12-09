@@ -1,6 +1,9 @@
 package application;
 
+import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import Wetterstation.*;
 import javafx.event.ActionEvent;
@@ -14,7 +17,7 @@ import javafx.scene.image.ImageView;
 
 public class MainController implements Initializable {
 	
-	Wetterstation w = new Wetterstation();
+	//Wetterstation w = new Wetterstation();
 	static String place;
 	@FXML
 	private Label ort;
@@ -49,8 +52,16 @@ public class MainController implements Initializable {
 	}
 
 	public void requestPlace(ActionEvent event) {
+		//Konfigurationsdatei
+		ConfigFileReader confData = new ConfigFileReader();
+		String defPlace = confData.getConfigFile();
+		//Verbindung zur DB herstellen
+		SQLConnection connector = new SQLConnection();
+		Connection con;
 		//eingegebener Text wird in variable gespeichert
 		place = textfeld.getText();
+		//Wenn d eingegeben wird, wird place auf den Default-Wert gesetzt
+		if(place.equals("d")) place = defPlace;
 		System.out.println("Ort eingegeben!");
 		//variable place wird an das label ort übergeben und im gui angezeigt
 		ort.setText(place);
@@ -78,12 +89,32 @@ public class MainController implements Initializable {
 		date3.setText(Wetterstation.Datum(3));
 		date4.setText(Wetterstation.Datum(4));
 		date5.setText(Wetterstation.Datum(5));
-		//System.out.println(Wetterstation.iconWB0);
-		
-		//Bild laden (funktioniert noch nicht)
-		image0.setImage(new Image("./pictures/c04d.png"));
-		place=null;
+		//Verbindung zur DB und Hochladen
+		try {
+			con = connector.getConnection();
+		Wetterstation.insertToDatabase(con, place);
+		} catch (ClassNotFoundException | SQLException e) {
+			System.out.println("Fehler in der Datenbank: "+e);
+		}
+		//Bild aus dem Ordner anzeigen
+		File file0 = new File("./pictures/"+Wetterstation.iconWB0+".png");
+	    Image image0 = new Image(file0.toURI().toString());
+	    this.image0.setImage(image0);
+	    File file1 = new File("./pictures/"+Wetterstation.iconWB1+".png");
+	    Image image1 = new Image(file1.toURI().toString());
+	    this.image1.setImage(image1);
+	    File file2 = new File("./pictures/"+Wetterstation.iconWB2+".png");
+	    Image image2 = new Image(file2.toURI().toString());
+	    this.image2.setImage(image2);
+	    File file3 = new File("./pictures/"+Wetterstation.iconWB3+".png");
+	    Image image3 = new Image(file3.toURI().toString());
+	    this.image3.setImage(image3);
+	    File file4 = new File("./pictures/"+Wetterstation.iconWB4+".png");
+	    Image image4 = new Image(file4.toURI().toString());
+	    this.image4.setImage(image4);
+	    File file5 = new File("./pictures/"+Wetterstation.iconWB5+".png");
+	    Image image5 = new Image(file5.toURI().toString());
+	    this.image5.setImage(image5);
 	}
-
 }
 

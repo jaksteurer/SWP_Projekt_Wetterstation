@@ -51,15 +51,12 @@ public class Wetterstation {
 	public static double low_tempWB4;
 	public static double max_tempWB5;
 	public static double low_tempWB5;
-
 	static double humidityAV;
 	static double windspeedAV;
 	//public weil sie in der Klasse MainController verwendet werden
-	public static double tempAV;
+	public static  double tempAV;
 	public static double max_tempAV;
-	public static double low_tempAV;
-
-
+	public static  double low_tempAV;
 
 	static String weiter = null;
 
