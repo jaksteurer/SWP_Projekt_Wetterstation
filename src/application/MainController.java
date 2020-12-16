@@ -60,7 +60,7 @@ public class MainController implements Initializable {
 		//Wenn d eingegeben wird, wird place auf den Default-Wert gesetzt
 		if(place.equals("d")) place = defPlace;
 		System.out.print("Ort eingegeben! -> ");
-		System.err.println(place);
+		System.out.println(place);
 		//variable place wird an das label ort übergeben und im gui angezeigt
 		ort.setText(place);
 		Wetterstation.readCurrentWeatherAPI(place);

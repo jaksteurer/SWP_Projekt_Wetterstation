@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -69,10 +67,7 @@ public class Wetterstation {
 	static String weiter = null;
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
-		
-		//readTest();
-		
-		
+				
 		// Verbindung zur DB herstellen
 		SQLConnection connector = new SQLConnection();
 		Connection con = connector.getConnection();
@@ -161,27 +156,27 @@ public class Wetterstation {
 			showForecastWeatherToday(place);
 
 			// Daten Openweathermap ausgabe über Gson
-//			JsonReader reader = new JsonReader(new StringReader(dGetData));
-//			reader.setLenient(true);
-//			JsonObject jsondataCurrent = (JsonObject) new JsonParser().parse(reader);
+			JsonReader reader = new JsonReader(new StringReader(dGetData));
+			reader.setLenient(true);
+			JsonObject jsondataCurrent = (JsonObject) new JsonParser().parse(reader);
 				//Alternative
-			JsonObject jsondataCurrent = new JsonParser().parse(dGetData).getAsJsonObject();
+				//JsonObject jsondataCurrent = new JsonParser().parse(dGetData).getAsJsonObject();
 			
 			// System.out.println(jsonObject);
-			tempOW = jsondataCurrent.getAsJsonObject("main").get("temp").getAsDouble();
-			temp_maxOW = jsondataCurrent.getAsJsonObject("main").get("temp_max").getAsDouble();
-			temp_minOW = jsondataCurrent.getAsJsonObject("main").get("temp_min").getAsDouble();
-			humidityOW = jsondataCurrent.getAsJsonObject("main").get("humidity").getAsDouble();
+			tempOW 		= jsondataCurrent.getAsJsonObject("main").get("temp").getAsDouble();
+			temp_maxOW 	= jsondataCurrent.getAsJsonObject("main").get("temp_max").getAsDouble();
+			temp_minOW 	= jsondataCurrent.getAsJsonObject("main").get("temp_min").getAsDouble();
+			humidityOW 	= jsondataCurrent.getAsJsonObject("main").get("humidity").getAsDouble();
 			windspeedOW = jsondataCurrent.getAsJsonObject("wind").get("speed").getAsDouble();
 
 			//(BONUS) Durchschnittswerte Berechnen
-			tempAV = Math.round((tempOW+tempWB0)/2*100)/100.;
-			max_tempAV = Math.round((temp_maxOW+max_tempWB0)/2*100)/100.;
-			low_tempAV = Math.round((temp_minOW+low_tempWB0)/2*100)/100.;
-			humidityAV = Math.round((humidityOW+rhWB0)/2*100)/100.;
+			tempAV 		= Math.round((tempOW+tempWB0)/2*100)/100.;
+			max_tempAV 	= Math.round((temp_maxOW+max_tempWB0)/2*100)/100.;
+			low_tempAV 	= Math.round((temp_minOW+low_tempWB0)/2*100)/100.;
+			humidityAV 	= Math.round((humidityOW+rhWB0)/2*100)/100.;
 			windspeedAV = Math.round((windspeedOW+wind_spdWB0)/2*100)/100.;
 
-			// (BONUS) Korrekturfaktor
+			//(BONUS) Korrekturfaktor
 			double corrFact = randomDoubleGenerator(low_tempAV, max_tempAV);
 
 			//Ausgabe in der Console
@@ -218,11 +213,11 @@ public class Wetterstation {
 	public static void showForecastWeather(String place) {
 		try {		
 			// Daten Weatherbit.io Ausgabe über Gson
-//			JsonReader reader = new JsonReader(new StringReader(fcGetData));
-//			reader.setLenient(true);
-//			JsonObject jsondataForecast = (JsonObject) new JsonParser().parse(reader);
+			JsonReader reader = new JsonReader(new StringReader(fcGetData));
+			reader.setLenient(true);
+			JsonObject jsondataForecast = (JsonObject) new JsonParser().parse(reader);
 				//Alternative
-			JsonObject jsondataForecast = new JsonParser().parse(fcGetData).getAsJsonObject();
+				//JsonObject jsondataForecast = new JsonParser().parse(fcGetData).getAsJsonObject();
 			
 			//System.out.println("Forecast: "+jsondataForecast); //Funktioniert
 
@@ -341,6 +336,8 @@ public class Wetterstation {
 		JsonReader reader = new JsonReader(new StringReader(fcGetData));
 		reader.setLenient(true);
 		JsonObject jsondataForecast = (JsonObject) new JsonParser().parse(reader);
+			//Alternative
+			//JsonObject jsondataForecast = new JsonParser().parse(fcGetData).getAsJsonObject();
 
 		//Muss in Array umgewandelt werden weil  "data" aus einem Array besteht
 		JsonArray data = jsondataForecast.getAsJsonArray("data");
@@ -350,12 +347,12 @@ public class Wetterstation {
 		JsonObject data0 = (JsonObject) data.getAsJsonArray().get(1);
 		
 		// System.out.println("heute: ("+data0.get("datetime")+")");
-		tempWB0 = data0.get("temp").getAsDouble(); 									// aktuelle Temp
-		max_tempWB0 = data0.get("max_temp").getAsDouble(); 							// maximal Temp
-		low_tempWB0 =  data0.get("low_temp").getAsDouble(); 						// minimal Temp
-		rhWB0 =  data0.get("rh").getAsDouble(); 									// Luftfeuchtigkeit
-		precipitationWB =  data0.get("pop").getAsDouble(); 							// Niederschlag
-		wind_spdWB0 = Math.round( data0.get("wind_spd").getAsDouble() * 100) / 100.;// Wind
+		tempWB0 		= data0.get("temp").getAsDouble(); 								// aktuelle Temp
+		max_tempWB0 	= data0.get("max_temp").getAsDouble(); 							// maximal Temp
+		low_tempWB0 	= data0.get("low_temp").getAsDouble(); 							// minimal Temp
+		rhWB0 			= data0.get("rh").getAsDouble(); 								// Luftfeuchtigkeit
+		precipitationWB = data0.get("pop").getAsDouble(); 								// Niederschlag
+		wind_spdWB0 	= Math.round( data0.get("wind_spd").getAsDouble()*100)/100.;// Wind
 		
 //		Map<String, Object> Icon0 = (Map<String, Object>) data0.get("weather");		// Icon
 //		iconWB0 = Icon0.get("icon").toString();
@@ -388,7 +385,7 @@ public class Wetterstation {
 		return place;
 	}
 	public static void readCurrentWeatherAPI(String place) {
-		//save current day json request in String
+		//save current day weather API json request in String
 		URL dUrl;
 		try {
 			dUrl = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + place
@@ -418,17 +415,17 @@ public class Wetterstation {
 		}
 	}
 	public static void readForecastWeatherAPI(String place) {
-		// save forecast weather json request in String
+		// save forecast weather API json request in String
 		URL fcUrl;
 		try {
 			fcUrl = new URL("https://api.weatherbit.io/v2.0/forecast/daily?city=" + place
-					+ "&country=at&days=6&lang=de&key=1c3d135c16f640c1823ce502f303e586");
+					+ "&country=at&days=8&lang=de&key=1c3d135c16f640c1823ce502f303e586"); //Bei days=6 oder 7 kommen andere Werte
 			HttpURLConnection fcConn = (HttpURLConnection) fcUrl.openConnection();
 			fcConn.setRequestMethod("GET");
 			fcConn.connect();
 			int fcResponsecode = fcConn.getResponseCode();
 			// System.out.println("Code: "+fcResponsecode);
-			if (fcResponsecode != 200) {
+			if (fcResponsecode != 200) { //200 ist code für Normalzustand (NWES Unterricht)
 				/*
 				 * Wird freigelassen weil bei falscher Ortseingabe bei jeder Methode diese
 				 * Ausgabe erscheint System.out.println("Bitte sinnvollen Ort eingeben!");
@@ -486,18 +483,6 @@ public class Wetterstation {
 			if (stm != null)
 				stm.close();
 		}
-	}
-	public static void readTest() throws MalformedURLException {
-
-		readCurrentWeatherAPI("Innsbruck");
-		readForecastWeatherAPI("Innsbruck");
-		JsonReader reader = new JsonReader(new StringReader(dGetData));
-		reader.setLenient(true);
-		System.out.println(reader);
-		//JsonObject jsondataForecast = new JsonParser().parse(fcGetData).getAsJsonObject();
-		Gson gson = new Gson();
-		Wetterstation w = gson.fromJson(reader, Wetterstation.class);
-		System.out.println(w);
 	}
 
 }
