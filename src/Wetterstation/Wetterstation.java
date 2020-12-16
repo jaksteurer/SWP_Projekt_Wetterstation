@@ -1,7 +1,10 @@
 package Wetterstation;
 
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,15 +16,20 @@ import java.util.Scanner;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 public class Wetterstation {
 
 	static String dGetData = "";
+	static Reader dGetDataR;
 	static String fcGetData = "";
-
+	static Reader fcGetDataR;
+	
 	static double tempOW;
 	static double temp_maxOW;
 	static double temp_minOW;
@@ -61,6 +69,10 @@ public class Wetterstation {
 	static String weiter = null;
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
+		
+		//readTest();
+		
+		
 		// Verbindung zur DB herstellen
 		SQLConnection connector = new SQLConnection();
 		Connection con = connector.getConnection();
@@ -71,7 +83,6 @@ public class Wetterstation {
 
 		// Ort abfragen
 		String place = requestPlace();
-
 
 		// Scanner scan = new Scanner(System.in);
 		// do {
@@ -104,6 +115,7 @@ public class Wetterstation {
 
 		// Verbindung zur DB trennen
 		//connector.releaseConnection(con);
+		 
 	}
 	public static String Datum(int datum) {
 		// Instanz vom Typ Kalender wird erstellt
@@ -149,7 +161,12 @@ public class Wetterstation {
 			showForecastWeatherToday(place);
 
 			// Daten Openweathermap ausgabe über Gson
+//			JsonReader reader = new JsonReader(new StringReader(dGetData));
+//			reader.setLenient(true);
+//			JsonObject jsondataCurrent = (JsonObject) new JsonParser().parse(reader);
+				//Alternative
 			JsonObject jsondataCurrent = new JsonParser().parse(dGetData).getAsJsonObject();
+			
 			// System.out.println(jsonObject);
 			tempOW = jsondataCurrent.getAsJsonObject("main").get("temp").getAsDouble();
 			temp_maxOW = jsondataCurrent.getAsJsonObject("main").get("temp_max").getAsDouble();
@@ -194,12 +211,19 @@ public class Wetterstation {
 			 */
 		} 
 		catch (Exception e) {
-			System.out.println("[showCurrenttWeather]Fehler liegt nicht am Ort! Fehler: " + e);
+			e.printStackTrace();
+			//System.out.println("[showCurrenttWeather]Fehler liegt nicht am Ort! Fehler: " + e);
 		}
 	}
 	public static void showForecastWeather(String place) {
-		try {
+		try {		
+			// Daten Weatherbit.io Ausgabe über Gson
+//			JsonReader reader = new JsonReader(new StringReader(fcGetData));
+//			reader.setLenient(true);
+//			JsonObject jsondataForecast = (JsonObject) new JsonParser().parse(reader);
+				//Alternative
 			JsonObject jsondataForecast = new JsonParser().parse(fcGetData).getAsJsonObject();
+			
 			//System.out.println("Forecast: "+jsondataForecast); //Funktioniert
 
 			//Muss in Array umgewandelt werden weil  "data" aus einem Array besteht
@@ -313,13 +337,10 @@ public class Wetterstation {
 		}
 	}
 	public static void showForecastWeatherToday(String place) {
-		// Konvertieren des Json Strings "inline" in eine Java Map
-//		Map<String, Object> foreDayMap = new Gson().fromJson(fcGetData, Map.class);
-//		List<Object> data = (List<Object>) foreDayMap.get("data");
-//		Map<Object, Object> data0 = (Map<Object, Object>) data.get(0);
 		
-		JsonObject jsondataForecast = new JsonParser().parse(fcGetData).getAsJsonObject();
-		//System.out.println("Forecast: "+jsondataForecast); //Funktioniert
+		JsonReader reader = new JsonReader(new StringReader(fcGetData));
+		reader.setLenient(true);
+		JsonObject jsondataForecast = (JsonObject) new JsonParser().parse(reader);
 
 		//Muss in Array umgewandelt werden weil  "data" aus einem Array besteht
 		JsonArray data = jsondataForecast.getAsJsonArray("data");
@@ -367,7 +388,7 @@ public class Wetterstation {
 		return place;
 	}
 	public static void readCurrentWeatherAPI(String place) {
-		// save current day json request in String
+		//save current day json request in String
 		URL dUrl;
 		try {
 			dUrl = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + place
@@ -375,9 +396,10 @@ public class Wetterstation {
 			HttpURLConnection dConn = (HttpURLConnection) dUrl.openConnection();
 			dConn.setRequestMethod("GET");
 			dConn.connect();
+			
 			int dResponsecode = dConn.getResponseCode();
 			// System.out.println("Code: "+dResponsecode);
-			if (dResponsecode != 200) {
+			if (dResponsecode != 200) { //200 ist code für Normalzustand (NWES Unterricht)
 				System.out.println("Bitte sinnvollen Ort eingeben!");
 				// System.out.println("[readCurrentWeatherAPI]HttpResonseCode: "+dResponsecode);
 				// System.out.println("Help for responsecodes:
@@ -465,6 +487,17 @@ public class Wetterstation {
 				stm.close();
 		}
 	}
+	public static void readTest() throws MalformedURLException {
 
+		readCurrentWeatherAPI("Innsbruck");
+		readForecastWeatherAPI("Innsbruck");
+		JsonReader reader = new JsonReader(new StringReader(dGetData));
+		reader.setLenient(true);
+		System.out.println(reader);
+		//JsonObject jsondataForecast = new JsonParser().parse(fcGetData).getAsJsonObject();
+		Gson gson = new Gson();
+		Wetterstation w = gson.fromJson(reader, Wetterstation.class);
+		System.out.println(w);
+	}
 
 }

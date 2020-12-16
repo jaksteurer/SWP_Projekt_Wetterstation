@@ -32,6 +32,6 @@ public class SQLConnection {
 	public void releaseConnection(Connection con) throws SQLException {
 		if (con != null)
 			con.close();
-		// System.out.println("Verbindung erfolgreich getrennt");
+		// System.out.println("Verbindung zur DB erfolgreich getrennt");
 	}
 }
