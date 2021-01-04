@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 public class MainController implements Initializable {
 
@@ -23,7 +24,7 @@ public class MainController implements Initializable {
 	@FXML
 	private TextField textfeld;
 	@FXML
-	private Label currentT, maxT0, minT0, percip0;
+	private Label currentT, maxT0, minT0, percip0, corrFact, humidity0, windspeed0;
 	@FXML
 	private Label date1, maxT1, minT1;
 	@FXML
@@ -36,6 +37,8 @@ public class MainController implements Initializable {
 	private Label date5, maxT5, minT5;
 	@FXML
 	private ImageView image0, image1, image2, image3, image4, image5;
+	@FXML
+	private Pane wData, search, err;
 
 	public static void main(String[] args) {
 
@@ -49,26 +52,47 @@ public class MainController implements Initializable {
 	}
 
 	public void requestPlace(ActionEvent event) {
+		//jeweiligen panes werden sichbar bzw unsichtbar gemacht
+		err.setVisible(false);
+		wData.setVisible(false);
+		search.setVisible(true);
 		//Konfigurationsdatei
 		ConfigFileReader confData = new ConfigFileReader();
 		String defPlace = confData.getConfigFile();
 		//Verbindung zur DB herstellen
 		SQLConnection connector = new SQLConnection();
 		Connection con;
-		//eingegebener Text wird in variable gespeichert
-		place = textfeld.getText();
-		//Wenn d eingegeben wird, wird place auf den Default-Wert gesetzt
-		if(place.equals("d")) place = defPlace;
-		System.out.print("Ort eingegeben! -> ");
-		System.out.println(place);
+		try {
+			//eingegebener Text wird in variable gespeichert
+			place = textfeld.getText();
+			//Wenn d eingegeben wird, wird place auf den Default-Wert gesetzt
+			if(place.equals("d")) place = defPlace;
+			System.out.print("Ort eingegeben! -> ");
+			System.out.println(place);
+		}catch(Exception e) {
+			System.out.println("[MainController.Orteingabe] Fehler: "+e);
+			err.setVisible(true);
+			wData.setVisible(false);
+			search.setVisible(false);
+		}
 		//variable place wird an das label ort übergeben und im gui angezeigt
-		ort.setText(place);
+		try {
 		Wetterstation.readCurrentWeatherAPI(place);
 		Wetterstation.readForecastWeatherAPI(place);
 		Wetterstation.showCurrentWeather(place);
 		Wetterstation.showForecastWeather(place);
+		}catch(Exception e) {
+			System.out.println("[MainController.Methoden] Fehler: "+e);
+			err.setVisible(true);
+			wData.setVisible(false);
+			search.setVisible(false);
+		}
 		//Werte werden zugewiesen
-		percip0.setText(String.valueOf(Wetterstation.precipitationWB)+" %"); 
+		ort.setText(place);
+		corrFact.setText(String.valueOf(Wetterstation.corrFact)+" °C");
+		percip0.setText(String.valueOf(Wetterstation.precipitationWB)+" %");
+		humidity0.setText(String.valueOf(Wetterstation.humidityAV)+" %");
+		windspeed0.setText(String.valueOf(Wetterstation.windspeedAV)+" km/h");
 		maxT0.setText(String.valueOf(Wetterstation.max_tempAV)+" °C");
 		minT0.setText(String.valueOf(Wetterstation.low_tempAV)+" °C");
 		currentT.setText(String.valueOf(Wetterstation.tempAV)+" °C");
@@ -87,6 +111,17 @@ public class MainController implements Initializable {
 		date3.setText(Wetterstation.Datum(3));
 		date4.setText(Wetterstation.Datum(4));
 		date5.setText(Wetterstation.Datum(5));
+		//Daten werden sichtbar gemacht
+		search.setVisible(false);
+		wData.setVisible(true);
+
+		//		corrFact.setVisible(true);percip0.setVisible(true);maxT0.setVisible(true);
+		//		minT0.setVisible(true);currentT.setVisible(true);maxT1.setVisible(true);
+		//		minT1.setVisible(true);maxT2.setVisible(true);minT2.setVisible(true);
+		//		maxT3.setVisible(true);minT3.setVisible(true);maxT4.setVisible(true);
+		//		minT4.setVisible(true);maxT5.setVisible(true);minT5.setVisible(true);
+		//		date1.setVisible(true);date2.setVisible(true);date3.setVisible(true);
+		//		date4.setVisible(true);date5.setVisible(true);date3.setVisible(true);
 		//Verbindung zur DB und Hochladen
 		try {
 			con = connector.getConnection();
@@ -113,7 +148,7 @@ public class MainController implements Initializable {
 		File file5 = new File("./pictures/"+Wetterstation.iconWB5+".png");
 		Image image5 = new Image(file5.toURI().toString());
 		this.image5.setImage(image5);
-		
+
 		//SetNull();
 	}
 	public void SetNull() {

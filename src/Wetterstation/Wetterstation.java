@@ -33,6 +33,7 @@ public class Wetterstation {
 	static double temp_minOW;
 	static double humidityOW;
 	static double windspeedOW;
+	
 
 	static double tempWB0;
 	static double max_tempWB0;
@@ -41,6 +42,7 @@ public class Wetterstation {
 	static double wind_spdWB0;
 	//public weil sie in der Klasse MainController verwendet werden
 	public static double precipitationWB;
+	public static double corrFact;
 	public static String iconWB0;
 	public static String iconWB1;
 	public static String iconWB2;
@@ -57,8 +59,8 @@ public class Wetterstation {
 	public static double low_tempWB4;
 	public static double max_tempWB5;
 	public static double low_tempWB5;
-	static double humidityAV;
-	static double windspeedAV;
+	public static double humidityAV;
+	public static double windspeedAV;
 	//public weil sie in der Klasse MainController verwendet werden
 	public static  double tempAV;
 	public static double max_tempAV;
@@ -177,7 +179,7 @@ public class Wetterstation {
 			windspeedAV = Math.round((windspeedOW+wind_spdWB0)/2*100)/100.;
 
 			//(BONUS) Korrekturfaktor
-			double corrFact = randomDoubleGenerator(low_tempAV, max_tempAV);
+			corrFact = randomDoubleGenerator(low_tempAV, max_tempAV);
 
 			//Ausgabe in der Console
 			System.out.println("Heute: ("+Datum(0)+")");
@@ -315,7 +317,7 @@ public class Wetterstation {
 			System.out.println("\tWind:\t\t\t"+Math.round(/*(double)*/ data5.get("wind_spd").getAsDouble()*100)/100.+" Km/h");
 			System.out.println("\tNiederschlag:\t\t"+data5.get("pop")+" %");
 			//Image
-			JsonObject Icon5 =  (JsonObject) data5.get("weather");
+			JsonObject Icon5 =  (JsonObject) data5.get("weather"); 
 			iconWB5 = Icon5.get("icon").getAsString();
 			System.out.println("\tICON-ID:\t\t"+iconWB5);
 			//ImageDownloader
@@ -352,14 +354,8 @@ public class Wetterstation {
 		low_tempWB0 	= data0.get("low_temp").getAsDouble(); 							// minimal Temp
 		rhWB0 			= data0.get("rh").getAsDouble(); 								// Luftfeuchtigkeit
 		precipitationWB = data0.get("pop").getAsDouble(); 								// Niederschlag
-		wind_spdWB0 	= Math.round( data0.get("wind_spd").getAsDouble()*100)/100.;// Wind
-		
-//		Map<String, Object> Icon0 = (Map<String, Object>) data0.get("weather");		// Icon
-//		iconWB0 = Icon0.get("icon").toString();
-//		// ImageDownloader
-//		ImageDownloader today = new ImageDownloader();
-//		today.imageDownloaderWB(Icon0.get("icon").toString());
-		
+		wind_spdWB0 	= Math.round( data0.get("wind_spd").getAsDouble()*100)/100.;	// Wind
+				
 		//Image
 		JsonObject Icon0 =  (JsonObject) data0.get("weather");
 		iconWB0 = Icon0.get("icon").getAsString();
@@ -375,6 +371,8 @@ public class Wetterstation {
 			Scanner sc = new Scanner(System.in);
 			System.out.print("Ort in Österreich eingeben: ");
 			place = sc.next();
+			//place.substring(0,1).toUpperCase()
+			//https://attacomsian.com/blog/capitalize-first-letter-of-string-java#:~:text=The%20simplest%20way%20to%20capitalize,substring(0%2C%201).
 			sc.close();
 		} catch (NullPointerException e) {
 			System.out.println("existierenden Ort eingeben");
@@ -418,8 +416,8 @@ public class Wetterstation {
 		// save forecast weather API json request in String
 		URL fcUrl;
 		try {
-			fcUrl = new URL("https://api.weatherbit.io/v2.0/forecast/daily?city=" + place
-					+ "&country=at&days=8&lang=de&key=1c3d135c16f640c1823ce502f303e586"); //Bei days=6 oder 7 kommen andere Werte
+			fcUrl = new URL("https://api.weatherbit.io/v2.0/forecast/daily?city="+place
+					+"&country=at&days=9&lang=de&key=1c3d135c16f640c1823ce502f303e586"); //Bei days=6 oder 7 kommen andere Werte; 
 			HttpURLConnection fcConn = (HttpURLConnection) fcUrl.openConnection();
 			fcConn.setRequestMethod("GET");
 			fcConn.connect();

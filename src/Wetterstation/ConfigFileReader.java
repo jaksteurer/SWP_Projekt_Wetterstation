@@ -20,6 +20,7 @@ public class ConfigFileReader {
 			BufferedInputStream stream;
 			stream = new BufferedInputStream(new FileInputStream(path));
 			properties.load(stream);
+			//Variable mit dem namen "defaultPlace" wird aus der Konfigurationsdatei gelesen
 			defaultPlace = properties.getProperty("defaultPlace");
 			// System.out.println(defaultPlace + "\t success");
 			stream.close();

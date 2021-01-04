@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -15,7 +16,46 @@
             <Image url="@../../pictures/basicbg.jpg" />
          </image>
       </ImageView>
-      <Pane prefHeight="633.0" prefWidth="1125.0">
+      <Pane fx:id="err" prefHeight="633.0" prefWidth="1125.0">
+         <children>
+            <Label alignment="CENTER" layoutX="432.5" layoutY="300.0" prefHeight="70.0" prefWidth="260.0" text="Ungültiger Ort" textAlignment="CENTER" textFill="RED" visible="false">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="search" prefHeight="633.0" prefWidth="1125.0">
+         <children>
+            <TextField fx:id="textfeld" layoutX="374.0" layoutY="240.0" onAction="#requestPlace" onInputMethodTextChanged="#requestPlace" prefHeight="46.0" prefWidth="377.0" promptText="Ort eingeben" />
+            <Label alignment="CENTER" layoutX="318.0" layoutY="62.0" prefHeight="70.0" prefWidth="490.0" text="Wetter Application" textFill="#ffca00">
+               <font>
+                  <Font name="Arial" size="38.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="318.0" layoutY="442.0" prefHeight="70.0" prefWidth="490.0" text="Jakob Steurer">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="318.0" layoutY="106.0" prefHeight="70.0" prefWidth="490.0" text="Wetterprognose für Österreich">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="318.0" layoutY="185.0" prefHeight="70.0" prefWidth="490.0" text="Bitte geben Sie den gewünschten Ort ein">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="218.0" layoutY="132.0" prefHeight="70.0" prefWidth="689.0" text="______________________________________________">
+               <font>
+                  <Font name="Arial" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="wData" prefHeight="633.0" prefWidth="1125.0" visible="false">
          <children>
             <Label fx:id="ort" alignment="CENTER" contentDisplay="RIGHT" layoutX="93.0" layoutY="35.0" prefHeight="76.0" prefWidth="361.0" text="Ort">
                <font>
@@ -27,47 +67,46 @@
                   <Image url="@../../../../Projekt_Wetterstation/GUI/ImagesWB/c02d.png" />
                </image>
             </ImageView>
-            <Label layoutX="542.0" layoutY="134.0" prefHeight="52.0" prefWidth="239.0" text="aktuelle Temperatur:">
+            <Label layoutX="558.0" layoutY="80.0" prefHeight="52.0" prefWidth="239.0" text="aktuelle Temperatur:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="542.0" layoutY="183.0" prefHeight="52.0" prefWidth="239.0" text="max. Temperatur:">
+            <Label layoutX="558.0" layoutY="129.0" prefHeight="52.0" prefWidth="239.0" text="max. Temperatur:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="542.0" layoutY="235.0" prefHeight="52.0" prefWidth="239.0" text="min. Temperatur:">
+            <Label layoutX="558.0" layoutY="181.0" prefHeight="52.0" prefWidth="239.0" text="min. Temperatur:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label layoutX="542.0" layoutY="286.0" prefHeight="52.0" prefWidth="239.0" text="Niederschlag:">
+            <Label layoutX="558.0" layoutY="233.0" prefHeight="52.0" prefWidth="239.0" text="Niederschlag:">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="currentT" alignment="CENTER_RIGHT" layoutX="794.0" layoutY="141.0" prefHeight="36.0" prefWidth="115.0" text="0,00 °C">
+            <Label fx:id="currentT" alignment="CENTER_RIGHT" layoutX="810.0" layoutY="87.0" prefHeight="36.0" prefWidth="115.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="maxT0" alignment="CENTER_RIGHT" layoutX="794.0" layoutY="190.0" prefHeight="36.0" prefWidth="115.0" text="0,00 °C">
+            <Label fx:id="maxT0" alignment="CENTER_RIGHT" layoutX="810.0" layoutY="136.0" prefHeight="36.0" prefWidth="115.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="minT0" alignment="CENTER_RIGHT" layoutX="794.0" layoutY="242.0" prefHeight="36.0" prefWidth="115.0" text="0,00 °C">
+            <Label fx:id="minT0" alignment="CENTER_RIGHT" layoutX="810.0" layoutY="188.0" prefHeight="36.0" prefWidth="115.0" text="0,00 °C">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="percip0" alignment="CENTER_RIGHT" layoutX="794.0" layoutY="294.0" prefHeight="36.0" prefWidth="115.0" text="0,00  %">
+            <Label fx:id="percip0" alignment="CENTER_RIGHT" layoutX="810.0" layoutY="241.0" prefHeight="36.0" prefWidth="115.0" text="0,00  %">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-			<TextField fx:id="textfeld" layoutX="539.0" layoutY="57.0" onAction="#requestPlace" onInputMethodTextChanged="#requestPlace" prefHeight="31.0" prefWidth="377.0" promptText="Ort eingeben" />
             <ImageView fx:id="image1" fitHeight="88.0" fitWidth="83.0" layoutX="129.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Projekt_Wetterstation/GUI/ImagesWB/c02d.png" />
@@ -166,6 +205,36 @@
             <Label fx:id="date5" alignment="CENTER" layoutX="888.0" layoutY="414.0" prefHeight="27.0" prefWidth="153.0" text="5 days">
                <font>
                   <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="corrFact" alignment="CENTER_RIGHT" layoutX="810.0" layoutY="42.0" prefHeight="36.0" prefWidth="115.0" text="0,00 °C">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="558.0" layoutY="35.0" prefHeight="52.0" prefWidth="239.0" text="gemessene Temperatur:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="humidity0" alignment="CENTER_RIGHT" layoutX="810.0" layoutY="287.0" prefHeight="36.0" prefWidth="115.0" text="0,00  %">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="558.0" layoutY="279.0" prefHeight="52.0" prefWidth="239.0" text="Luftfeuchtigkeit:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="558.0" layoutY="323.0" prefHeight="52.0" prefWidth="239.0" text="Windgeschwindigkeit:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="windspeed0" alignment="CENTER_RIGHT" layoutX="810.0" layoutY="331.0" prefHeight="36.0" prefWidth="115.0" text="0,00  %">
+               <font>
+                  <Font size="18.0" />
                </font>
             </Label>
          </children>
