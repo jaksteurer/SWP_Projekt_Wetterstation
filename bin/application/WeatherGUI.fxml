@@ -16,13 +16,16 @@
             <Image url="@../../pictures/basicbg.jpg" />
          </image>
       </ImageView>
-      <Pane fx:id="err" prefHeight="633.0" prefWidth="1125.0">
+      <Pane fx:id="err" prefHeight="633.0" prefWidth="1125.0" visible="false">
          <children>
-            <Label alignment="CENTER" layoutX="432.5" layoutY="300.0" prefHeight="70.0" prefWidth="260.0" text="Ungültiger Ort" textAlignment="CENTER" textFill="RED" visible="false">
+            <Label alignment="CENTER" layoutX="473.0" layoutY="266.0" text="Überprüfen Sie die Eingabe" />
+            <Label alignment="CENTER" layoutX="359.0" layoutY="196.0" prefHeight="70.0" prefWidth="408.0" text="Ein Fehler ist aufgetreten" textAlignment="CENTER" textFill="RED">
                <font>
                   <Font size="32.0" />
                </font>
             </Label>
+            <Label alignment="CENTER" layoutX="541.0" layoutY="317.0" text="Fehler:" />
+            <Label fx:id="errormsg" alignment="TOP_CENTER" layoutX="230.0" layoutY="338.0" prefHeight="220.0" prefWidth="667.0" />
          </children>
       </Pane>
       <Pane fx:id="search" prefHeight="633.0" prefWidth="1125.0">
@@ -33,7 +36,7 @@
                   <Font name="Arial" size="38.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="318.0" layoutY="442.0" prefHeight="70.0" prefWidth="490.0" text="Jakob Steurer">
+            <Label alignment="CENTER" layoutX="318.0" layoutY="442.0" prefHeight="70.0" prefWidth="490.0" text="By Jakob Steurer">
                <font>
                   <Font size="19.0" />
                </font>

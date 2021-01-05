@@ -22,9 +22,9 @@ public class SQLConnection {
 			System.out.println("Verbindung zu DB erfolgreich");
 			return con;
 		} catch (Exception e) {
+			System.out.println("[getConnection]Fehler: " + e + "\n");
 			System.out.println("Verbindung zur DB Fehlgeschlagen! Werte werden nicht in der Datenbank gespeichert!"
 					+ "\nKontrollieren ob MySQL Workbench geöffnet ist.");
-			System.out.println("[getConnection]Fehler: " + e + "\n");
 		}
 		return null;
 	}

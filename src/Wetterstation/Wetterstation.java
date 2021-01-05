@@ -152,7 +152,7 @@ public class Wetterstation {
 		return "Wert muss zwischen 0 und 5 liegen";
 	}
 	public static void showCurrentWeather(String place) {
-		try {
+		//try {
 
 			// Diese Methode belegt Werte von anderer API (WB) für Durchschnittsberechnung
 			showForecastWeatherToday(place);
@@ -201,19 +201,19 @@ public class Wetterstation {
 			// ImageDownloader
 			ImageDownloader today = new ImageDownloader();
 			today.imageDownloaderOW(iconId);
-		} catch (NullPointerException e) {
+		/*} catch (NullPointerException e) {
 			/*
 			 * Wird freigelassen weil bei falscher Ortseingabe bei jeder Methode diese Ausgabe erscheint
 			 * System.out.println("[showCurrenttWeather]Sinnvollen Ort eingeben");
 			 */
-		} 
+		/*} 
 		catch (Exception e) {
 			e.printStackTrace();
 			//System.out.println("[showCurrenttWeather]Fehler liegt nicht am Ort! Fehler: " + e);
-		}
+		}*/
 	}
 	public static void showForecastWeather(String place) {
-		try {		
+		//try {		
 			// Daten Weatherbit.io Ausgabe über Gson
 			JsonReader reader = new JsonReader(new StringReader(fcGetData));
 			reader.setLenient(true);
@@ -324,14 +324,14 @@ public class Wetterstation {
 			ImageDownloader five = new ImageDownloader();
 			five.imageDownloaderWB(iconWB5);
 
-		} catch (NullPointerException e) {
+		//} catch (NullPointerException e) {
 			/*
 			 * Wird freigelassen weil bei falscher Ortseingabe bei jeder Methode diese Ausgabe erscheint
 			 * System.out.println("[forecasttWeather]Sinnvollen Ort eingeben");
 			 */
-		} catch (Exception e) {
-			System.out.println("[showForecastWeather]Fehler liegt nicht am Ort! Fehler: " + e);
-		}
+//		} catch (Exception e) {
+//			System.out.println("[showForecastWeather]Fehler liegt nicht am Ort! Fehler: " + e);
+//		}
 	}
 	public static void showForecastWeatherToday(String place) {
 		
@@ -367,19 +367,19 @@ public class Wetterstation {
 	}
 	public static String requestPlace() {
 		String place = null;
-		try {
+		//try {
 			Scanner sc = new Scanner(System.in);
 			System.out.print("Ort in Österreich eingeben: ");
 			place = sc.next();
 			//place.substring(0,1).toUpperCase()
 			//https://attacomsian.com/blog/capitalize-first-letter-of-string-java#:~:text=The%20simplest%20way%20to%20capitalize,substring(0%2C%201).
 			sc.close();
-		} catch (NullPointerException e) {
-			System.out.println("existierenden Ort eingeben");
-			return null;
-		} catch (Exception e) {
-			System.out.println("[requestPlace]Fehler liegt nicht am Ort! Fehler: " + e);
-		}
+//		} catch (NullPointerException e) {
+//			System.out.println("existierenden Ort eingeben");
+//			return null;
+//		} catch (Exception e) {
+//			System.out.println("[requestPlace]Fehler liegt nicht am Ort! Fehler: " + e);
+//		}
 		return place;
 	}
 	public static void readCurrentWeatherAPI(String place) {

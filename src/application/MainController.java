@@ -20,7 +20,7 @@ public class MainController implements Initializable {
 	//Wetterstation w = new Wetterstation();
 	static String place;
 	@FXML
-	private Label ort;
+	private Label ort, errormsg;
 	@FXML
 	private TextField textfeld;
 	@FXML
@@ -53,9 +53,9 @@ public class MainController implements Initializable {
 
 	public void requestPlace(ActionEvent event) {
 		//jeweiligen panes werden sichbar bzw unsichtbar gemacht
-		err.setVisible(false);
-		wData.setVisible(false);
-		search.setVisible(true);
+//		err.setVisible(false);
+//		wData.setVisible(false);
+//		search.setVisible(true);
 		//Konfigurationsdatei
 		ConfigFileReader confData = new ConfigFileReader();
 		String defPlace = confData.getConfigFile();
@@ -77,43 +77,53 @@ public class MainController implements Initializable {
 		}
 		//variable place wird an das label ort übergeben und im gui angezeigt
 		try {
-		Wetterstation.readCurrentWeatherAPI(place);
-		Wetterstation.readForecastWeatherAPI(place);
-		Wetterstation.showCurrentWeather(place);
-		Wetterstation.showForecastWeather(place);
+			Wetterstation.readCurrentWeatherAPI(place);
+			Wetterstation.readForecastWeatherAPI(place);
+			Wetterstation.showCurrentWeather(place);
+			Wetterstation.showForecastWeather(place);
+			//Werte werden zugewiesen
+			ort.setText(place);
+			corrFact.setText(String.valueOf(Wetterstation.corrFact)+" °C");
+			percip0.setText(String.valueOf(Wetterstation.precipitationWB)+" %");
+			humidity0.setText(String.valueOf(Wetterstation.humidityAV)+" %");
+			windspeed0.setText(String.valueOf(Wetterstation.windspeedAV)+" km/h");
+			maxT0.setText(String.valueOf(Wetterstation.max_tempAV)+" °C");
+			minT0.setText(String.valueOf(Wetterstation.low_tempAV)+" °C");
+			currentT.setText(String.valueOf(Wetterstation.tempAV)+" °C");
+			maxT1.setText(String.valueOf(Wetterstation.max_tempWB1)+" °C");
+			minT1.setText(String.valueOf(Wetterstation.low_tempWB1)+" °C");
+			maxT2.setText(String.valueOf(Wetterstation.max_tempWB2)+" °C");
+			minT2.setText(String.valueOf(Wetterstation.low_tempWB2)+" °C");
+			maxT3.setText(String.valueOf(Wetterstation.max_tempWB3)+" °C");
+			minT3.setText(String.valueOf(Wetterstation.low_tempWB3)+" °C");
+			maxT4.setText(String.valueOf(Wetterstation.max_tempWB4)+" °C");
+			minT4.setText(String.valueOf(Wetterstation.low_tempWB4)+" °C");
+			maxT5.setText(String.valueOf(Wetterstation.max_tempWB5)+" °C");
+			minT5.setText(String.valueOf(Wetterstation.low_tempWB5)+" °C");
+			date1.setText(Wetterstation.Datum(1));
+			date2.setText(Wetterstation.Datum(2));
+			date3.setText(Wetterstation.Datum(3));
+			date4.setText(Wetterstation.Datum(4));
+			date5.setText(Wetterstation.Datum(5));
+			//Daten werden sichtbar gemacht
+			search.setVisible(false);
+			wData.setVisible(true);
+		}catch (java.lang.ClassCastException e) {
+			System.out.println("[MainController.java.lang.ClassCastException] Fehler: "+e);
+			String msg = "Dieser Ort existiert in Österreich nicht!";
+			errormsg.setText(String.valueOf(msg));
+			err.setVisible(true);
+			wData.setVisible(false);
+			search.setVisible(false);
 		}catch(Exception e) {
 			System.out.println("[MainController.Methoden] Fehler: "+e);
+			errormsg.setText(String.valueOf(e));
 			err.setVisible(true);
 			wData.setVisible(false);
 			search.setVisible(false);
 		}
-		//Werte werden zugewiesen
-		ort.setText(place);
-		corrFact.setText(String.valueOf(Wetterstation.corrFact)+" °C");
-		percip0.setText(String.valueOf(Wetterstation.precipitationWB)+" %");
-		humidity0.setText(String.valueOf(Wetterstation.humidityAV)+" %");
-		windspeed0.setText(String.valueOf(Wetterstation.windspeedAV)+" km/h");
-		maxT0.setText(String.valueOf(Wetterstation.max_tempAV)+" °C");
-		minT0.setText(String.valueOf(Wetterstation.low_tempAV)+" °C");
-		currentT.setText(String.valueOf(Wetterstation.tempAV)+" °C");
-		maxT1.setText(String.valueOf(Wetterstation.max_tempWB1)+" °C");
-		minT1.setText(String.valueOf(Wetterstation.low_tempWB1)+" °C");
-		maxT2.setText(String.valueOf(Wetterstation.max_tempWB2)+" °C");
-		minT2.setText(String.valueOf(Wetterstation.low_tempWB2)+" °C");
-		maxT3.setText(String.valueOf(Wetterstation.max_tempWB3)+" °C");
-		minT3.setText(String.valueOf(Wetterstation.low_tempWB3)+" °C");
-		maxT4.setText(String.valueOf(Wetterstation.max_tempWB4)+" °C");
-		minT4.setText(String.valueOf(Wetterstation.low_tempWB4)+" °C");
-		maxT5.setText(String.valueOf(Wetterstation.max_tempWB5)+" °C");
-		minT5.setText(String.valueOf(Wetterstation.low_tempWB5)+" °C");
-		date1.setText(Wetterstation.Datum(1));
-		date2.setText(Wetterstation.Datum(2));
-		date3.setText(Wetterstation.Datum(3));
-		date4.setText(Wetterstation.Datum(4));
-		date5.setText(Wetterstation.Datum(5));
-		//Daten werden sichtbar gemacht
-		search.setVisible(false);
-		wData.setVisible(true);
+
+		
 
 		//		corrFact.setVisible(true);percip0.setVisible(true);maxT0.setVisible(true);
 		//		minT0.setVisible(true);currentT.setVisible(true);maxT1.setVisible(true);
