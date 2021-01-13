@@ -32,6 +32,9 @@ public class ImageDownloader {
 		}
 	}
 	public void imageDownloaderWB (String iconId) {
+		//Datei wird runtergeladen und im Ordner gespeichert
+		//Wenn die Datei bereits vorhanden ist wird sie nicht mehr runtergeladen 
+		//und die bereits vorhandene Datei wird verwendet
 		BufferedImage image = null;
 		try {
 			//Pfad zur URL wird erstellt

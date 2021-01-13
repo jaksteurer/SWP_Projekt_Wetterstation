@@ -61,7 +61,6 @@ public class Wetterstation {
 	public static double low_tempWB5;
 	public static double humidityAV;
 	public static double windspeedAV;
-	//public weil sie in der Klasse MainController verwendet werden
 	public static  double tempAV;
 	public static double max_tempAV;
 	public static  double low_tempAV;
@@ -157,14 +156,15 @@ public class Wetterstation {
 			// Diese Methode belegt Werte von anderer API (WB) für Durchschnittsberechnung
 			showForecastWeatherToday(place);
 
-			// Daten Openweathermap ausgabe über Gson
+			//Daten Openweathermap ausgabe über Gson
 			JsonReader reader = new JsonReader(new StringReader(dGetData));
 			reader.setLenient(true);
 			JsonObject jsondataCurrent = (JsonObject) new JsonParser().parse(reader);
 				//Alternative
 				//JsonObject jsondataCurrent = new JsonParser().parse(dGetData).getAsJsonObject();
+				// System.out.println(jsonObject);
 			
-			// System.out.println(jsonObject);
+			//Variablen werden mit Werten befüllt
 			tempOW 		= jsondataCurrent.getAsJsonObject("main").get("temp").getAsDouble();
 			temp_maxOW 	= jsondataCurrent.getAsJsonObject("main").get("temp_max").getAsDouble();
 			temp_minOW 	= jsondataCurrent.getAsJsonObject("main").get("temp_min").getAsDouble();
@@ -194,7 +194,7 @@ public class Wetterstation {
 
 			// ICON id anfordern
 			JsonObject weather = jsondataCurrent.getAsJsonArray("weather").get(0).getAsJsonObject();
-			// System.out.println("weather: "+weather);
+			//id wird als String angefordert, da sie für den Pfad in ImageDownloader benötigt wird
 			String iconId = weather.getAsJsonObject().get("icon").getAsString();
 			System.out.println("\tICON_ID:\t\t"+iconId+"\t\t\t"+iconWB0);
 
@@ -237,7 +237,8 @@ public class Wetterstation {
 
 			//Ein wert aus dem Array an Stelle 0 testen
 			//System.out.println("wert 1: "+data1.get("max_temp")); //Funktioniert
-
+			
+			//Variablen werden befüllt
 			max_tempWB1 = data1.get("max_temp").getAsDouble();
 			low_tempWB1 = data1.get("low_temp").getAsDouble();
 			max_tempWB2 = data2.get("max_temp").getAsDouble();
@@ -334,7 +335,7 @@ public class Wetterstation {
 //		}
 	}
 	public static void showForecastWeatherToday(String place) {
-		
+		//Daten Weatherbit.io Ausgabe über Gson
 		JsonReader reader = new JsonReader(new StringReader(fcGetData));
 		reader.setLenient(true);
 		JsonObject jsondataForecast = (JsonObject) new JsonParser().parse(reader);
@@ -427,10 +428,9 @@ public class Wetterstation {
 				/*
 				 * Wird freigelassen weil bei falscher Ortseingabe bei jeder Methode diese
 				 * Ausgabe erscheint System.out.println("Bitte sinnvollen Ort eingeben!");
-				 * System.out.println("[readForecastWeatherAPI]HttpResonseCode: "+fcResponsecode
-				 * ); System.out.
-				 * println("Help for responsecodes: https://www.tutorialspoint.com/servlets/servlets-http-status-codes.htm"
-				 * );
+				 * System.out.println("[readForecastWeatherAPI]HttpResonseCode: "+fcResponsecode); 
+				 * System.out.println("Help for responsecodes: https://www.tutorialspoint.com/servlets/servlets-http-status-codes.htm");
+				 * 
 				 */
 			} else {
 				Scanner sc = new Scanner(fcUrl.openStream());
@@ -456,6 +456,8 @@ public class Wetterstation {
 		return random;
 	}
 	public static void insertToDatabase(Connection con, String place) throws SQLException {
+		//SQL Befehl; NOW() ist das heutige Datum 
+		//Primary key ist das heutige Datum mit dem Standort
 		String sql = "INSERT INTO temperatures values (NOW(),?,?,?,?,?)" + "	ON DUPLICATE KEY"
 				+ "	UPDATE maxtempInCelsius = VALUES(maxtempInCelsius),"
 				+ "	mintempInCelsius = VALUES(mintempInCelsius)," + "	humidityInPercent = VALUES(humidityInPercent),"
@@ -463,6 +465,7 @@ public class Wetterstation {
 		PreparedStatement stm = null;
 		try {
 			stm = con.prepareStatement(sql);
+			//0 ist das heutige Datum
 			stm.setString(1, place);
 			stm.setDouble(2, max_tempAV);
 			stm.setDouble(3, low_tempAV);

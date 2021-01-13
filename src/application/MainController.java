@@ -6,14 +6,21 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import Wetterstation.*;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+
+//Für keyPressed
+//import javafx.scene.input.KeyCode;
+//import javafx.scene.input.KeyEvent;
+//import javafx.event.EventHandler;
+
 
 public class MainController implements Initializable {
 
@@ -36,12 +43,17 @@ public class MainController implements Initializable {
 	@FXML
 	private Label date5, maxT5, minT5;
 	@FXML
-	private ImageView image0, image1, image2, image3, image4, image5;
+	private ImageView image0, image1, image2, image3, image4, image5, load;
 	@FXML
 	private Pane wData, search, err;
+	@FXML
+	private ProgressIndicator ld;
+	
+
+
+
 
 	public static void main(String[] args) {
-
 		//requestPlace(null);
 
 	}
@@ -51,11 +63,27 @@ public class MainController implements Initializable {
 		// TODO Auto-generated method stub	
 	}
 
-	public void requestPlace(ActionEvent event) {
-		//jeweiligen panes werden sichbar bzw unsichtbar gemacht
-//		err.setVisible(false);
-//		wData.setVisible(false);
-//		search.setVisible(true);
+
+	/*public void keyPressed() {
+		//Sobald nach eingabe des Ortes Enter gedrückt wird
+		// soll ein Lade GIF angezeigt werden bis die Daten
+		// welche aus dem Internet geladen werden,
+		// fertig geladen sind
+		//
+		//Doch hier zeigt das Ladelogo erst an sobald die
+		//Daten fertig geladen worden sind
+		textfeld.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			@Override
+			public void handle(KeyEvent event) {
+				if(event.getCode().equals(KeyCode.ENTER)) {
+					load.setVisible(true);
+				}
+			}
+		});
+	}*/
+	
+
+	public void start(/*ActionEvent event*/) {
 		//Konfigurationsdatei
 		ConfigFileReader confData = new ConfigFileReader();
 		String defPlace = confData.getConfigFile();
@@ -108,6 +136,7 @@ public class MainController implements Initializable {
 			//Daten werden sichtbar gemacht
 			search.setVisible(false);
 			wData.setVisible(true);
+			//if(wData.isVisible()) load.setVisible(false);
 		}catch (java.lang.ClassCastException e) {
 			System.out.println("[MainController.java.lang.ClassCastException] Fehler: "+e);
 			String msg = "Dieser Ort existiert in Österreich nicht!";
@@ -122,8 +151,9 @@ public class MainController implements Initializable {
 			wData.setVisible(false);
 			search.setVisible(false);
 		}
+		//load.setVisible(false);
 
-		
+
 
 		//		corrFact.setVisible(true);percip0.setVisible(true);maxT0.setVisible(true);
 		//		minT0.setVisible(true);currentT.setVisible(true);maxT1.setVisible(true);
@@ -159,29 +189,7 @@ public class MainController implements Initializable {
 		Image image5 = new Image(file5.toURI().toString());
 		this.image5.setImage(image5);
 
-		//SetNull();
 	}
-	public void SetNull() {
-		Wetterstation.precipitationWB = 0;
-		Wetterstation.max_tempAV = 0;
-		Wetterstation.low_tempAV = 0;
-		Wetterstation.tempAV = 0;
-		Wetterstation.max_tempWB1 = 0;
-		Wetterstation.low_tempWB1 = 0;
-		Wetterstation.max_tempWB2 = 0;
-		Wetterstation.low_tempWB2 = 0;
-		Wetterstation.max_tempWB3 = 0;
-		Wetterstation.low_tempWB3 = 0;
-		Wetterstation.max_tempWB4 = 0;
-		Wetterstation.low_tempWB4 = 0;
-		Wetterstation.max_tempWB5 = 0;
-		Wetterstation.low_tempWB5 = 0;
-		Wetterstation.iconWB0 = null;
-		Wetterstation.iconWB1 = null;
-		Wetterstation.iconWB2 = null;
-		Wetterstation.iconWB3 = null;
-		Wetterstation.iconWB4 = null;
-		Wetterstation.iconWB5 = null;
-	}
+
 }
 
