@@ -9,17 +9,20 @@ import Wetterstation.*;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 //Für keyPressed
-//import javafx.scene.input.KeyCode;
-//import javafx.scene.input.KeyEvent;
-//import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 
 
 public class MainController implements Initializable {
@@ -27,7 +30,7 @@ public class MainController implements Initializable {
 	//Wetterstation w = new Wetterstation();
 	static String place;
 	@FXML
-	private Label ort, errormsg;
+	private Label ort, errormsg, wait;
 	@FXML
 	private TextField textfeld;
 	@FXML
@@ -47,8 +50,8 @@ public class MainController implements Initializable {
 	@FXML
 	private Pane wData, search, err;
 	@FXML
-	private ProgressIndicator ld;
-	
+	private ProgressIndicator pIndicator;
+
 
 
 
@@ -76,13 +79,12 @@ public class MainController implements Initializable {
 			@Override
 			public void handle(KeyEvent event) {
 				if(event.getCode().equals(KeyCode.ENTER)) {
-					load.setVisible(true);
+					//pIndicator.setVisible(true);
+					wait.setVisible(true);
 				}
 			}
 		});
-	}*/
-	
-
+	}*/	
 	public void start(/*ActionEvent event*/) {
 		//Konfigurationsdatei
 		ConfigFileReader confData = new ConfigFileReader();
@@ -92,7 +94,7 @@ public class MainController implements Initializable {
 		Connection con;
 		try {
 			//eingegebener Text wird in variable gespeichert
-			place = textfeld.getText();
+			place = Wetterstation.capitalizeFirstLetter(textfeld.getText());
 			//Wenn d eingegeben wird, wird place auf den Default-Wert gesetzt
 			if(place.equals("d")) place = defPlace;
 			System.out.print("Ort eingegeben! -> ");
@@ -133,10 +135,22 @@ public class MainController implements Initializable {
 			date3.setText(Wetterstation.Datum(3));
 			date4.setText(Wetterstation.Datum(4));
 			date5.setText(Wetterstation.Datum(5));
+			//Verbindung zur DB und Hochladen der Daten
+			con = connector.getConnection();
+			Wetterstation.insertToDatabase(con, place);		
 			//Daten werden sichtbar gemacht
 			search.setVisible(false);
 			wData.setVisible(true);
 			//if(wData.isVisible()) load.setVisible(false);
+			//catch wenn Datenbanktproblem auftritt
+		}catch (ClassNotFoundException | SQLException e) {
+			System.out.println("Fehler in der Datenbank: "+e);
+			String msg ="Fehler in der Datenbank:\n"+e;
+			errormsg.setText(String.valueOf(msg));
+			err.setVisible(true);
+			wData.setVisible(false);
+			search.setVisible(false);
+			//catch wenn falsche Eingabe
 		}catch (java.lang.ClassCastException e) {
 			System.out.println("[MainController.java.lang.ClassCastException] Fehler: "+e);
 			String msg = "Dieser Ort existiert in Österreich nicht!";
@@ -144,6 +158,7 @@ public class MainController implements Initializable {
 			err.setVisible(true);
 			wData.setVisible(false);
 			search.setVisible(false);
+			//alle anderen Error
 		}catch(Exception e) {
 			System.out.println("[MainController.Methoden] Fehler: "+e);
 			errormsg.setText(String.valueOf(e));
@@ -162,13 +177,14 @@ public class MainController implements Initializable {
 		//		minT4.setVisible(true);maxT5.setVisible(true);minT5.setVisible(true);
 		//		date1.setVisible(true);date2.setVisible(true);date3.setVisible(true);
 		//		date4.setVisible(true);date5.setVisible(true);date3.setVisible(true);
-		//Verbindung zur DB und Hochladen
+
+		/*//Verbindung zur DB und Hochladen
 		try {
 			con = connector.getConnection();
 			Wetterstation.insertToDatabase(con, place);
 		} catch (ClassNotFoundException | SQLException e) {
 			System.out.println("Fehler in der Datenbank: "+e);
-		}
+		}*/
 		//Bild aus dem Ordner anzeigen
 		File file0 = new File("./pictures/"+Wetterstation.iconWB0+".png");
 		Image image0 = new Image(file0.toURI().toString());
@@ -191,5 +207,6 @@ public class MainController implements Initializable {
 
 	}
 
+	
 }
 

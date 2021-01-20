@@ -24,7 +24,6 @@
                </image>
             </ImageView>
             <Button layoutX="531.0" layoutY="286.0" mnemonicParsing="false" text="Button" visible="false" />
-            <ProgressIndicator fx:id="ld" layoutX="498.0" layoutY="340.0" prefHeight="105.0" prefWidth="130.0" visible="false" />
          </children>
       </Pane>
       <Pane fx:id="err" prefHeight="633.0" prefWidth="1125.0" visible="false">
@@ -41,7 +40,7 @@
       </Pane>
       <Pane fx:id="search" prefHeight="633.0" prefWidth="1125.0">
          <children>
-            <TextField fx:id="textfeld" layoutX="374.0" layoutY="240.0" onAction="#start" onInputMethodTextChanged="#start" prefHeight="46.0" prefWidth="377.0" promptText="Ort eingeben" />
+            <TextField fx:id="textfeld" layoutX="374.0" layoutY="240.0" onAction="#start" prefHeight="46.0" prefWidth="377.0" promptText="Ort eingeben" />
             <Label alignment="CENTER" layoutX="318.0" layoutY="62.0" prefHeight="70.0" prefWidth="490.0" text="Wetter Application" textFill="#ffca00">
                <font>
                   <Font name="Arial" size="38.0" />
@@ -67,6 +66,8 @@
                   <Font name="Arial" size="18.0" />
                </font>
             </Label>
+            <ProgressIndicator fx:id="pIndicator" layoutX="498.0" layoutY="325.0" prefHeight="105.0" prefWidth="130.0" visible="false" />
+            <Label fx:id="wait" layoutX="516.0" layoutY="340.0" text="Bitte warten ..." visible="false" />
          </children>
       </Pane>
       <Pane fx:id="wData" prefHeight="633.0" prefWidth="1125.0" visible="false">

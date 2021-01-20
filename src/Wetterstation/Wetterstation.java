@@ -80,8 +80,6 @@ public class Wetterstation {
 		// Ort abfragen
 		String place = requestPlace();
 
-		// Scanner scan = new Scanner(System.in);
-		// do {
 		if (place.equals("d")) {
 			place = defPlace;
 			System.err.println("Wetter für den Defalut-Ort " + place + ":");
@@ -101,13 +99,6 @@ public class Wetterstation {
 		} else {
 			System.out.println("Eingabe überprüfen");
 		}
-		// Statt den if's nur "Hallo" funktioniert ohne Probleme
-		// System.out.println("Hallo");
-
-		// System.out.print("Weiteren Ort eingeben? [j/n]: ");
-		// weiter = scan.next();
-		// }while(weiter.equals("j"));
-		// scan.close();
 
 		// Verbindung zur DB trennen
 		//connector.releaseConnection(con);
@@ -485,5 +476,9 @@ public class Wetterstation {
 				stm.close();
 		}
 	}
-
+	public static String capitalizeFirstLetter(String s) {
+		if(s== null || s.isEmpty()) return s;
+		
+		return s.substring(0,1).toUpperCase()+s.substring(1);
+	}
 }
