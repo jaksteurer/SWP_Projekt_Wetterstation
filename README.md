@@ -41,6 +41,14 @@ Clone the repository.
 ```
 git clone https://github.com/jaksteurer/SWP_Projekt_Wetterstation
 ```
+## Vorschau
+Die Applikation erschließt sich aus drei Fenstern (JavaFx: Panes).
+- Das erste Fenster dient zur Eingabe des gewünschten Ortes:
+<a target="_blank"><img src=".github/pane-search.png" width="350px"></a>
+- Das zweite Fenster veranschaulicht die Wetterdaten mit passenden Bildern
+<a target="_blank"><img src=".github/pane-data.png" width="350px"></a>
+- Das dritte Fenster erscheint wenn ein ungültiger Ort eingegeben wurde oder dieser sich nicht in Östtereich befindet.
+<a target="_blank"><img src=".github/pane-error.png" width="350px"></a>
 
 ## Kontakt
 
