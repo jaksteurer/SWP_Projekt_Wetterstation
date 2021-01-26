@@ -9,20 +9,18 @@ import Wetterstation.*;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 //Für keyPressed
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.concurrent.Task;
-import javafx.event.EventHandler;
+//import javafx.scene.input.KeyCode;
+//import javafx.scene.input.KeyEvent;
+//import javafx.concurrent.Task;
+//import javafx.event.EventHandler;
 
 
 public class MainController implements Initializable {
@@ -86,12 +84,15 @@ public class MainController implements Initializable {
 		});
 	}*/	
 	public void start(/*ActionEvent event*/) {
-		//Konfigurationsdatei
+		//#########################################################################################
+		//Konfigurationsdatei aufrufen wenn d als Ort eingegeben wird
 		ConfigFileReader confData = new ConfigFileReader();
 		String defPlace = confData.getConfigFile();
-		//Verbindung zur DB herstellen
+		//#########################################################################################
+		//Instanz für DB erstellen
 		SQLConnection connector = new SQLConnection();
 		Connection con;
+		//#########################################################################################
 		try {
 			//eingegebener Text wird in variable gespeichert
 			place = Wetterstation.capitalizeFirstLetter(textfeld.getText());
@@ -105,8 +106,11 @@ public class MainController implements Initializable {
 			wData.setVisible(false);
 			search.setVisible(false);
 		}
-		//variable place wird an das label ort übergeben und im gui angezeigt
+		//#########################################################################################
 		try {
+			//Verbindung zur DB herstellen
+			con = connector.getConnection();
+			//Methoden für die Werte aufrufen
 			Wetterstation.readCurrentWeatherAPI(place);
 			Wetterstation.readForecastWeatherAPI(place);
 			Wetterstation.showCurrentWeather(place);
@@ -135,57 +139,41 @@ public class MainController implements Initializable {
 			date3.setText(Wetterstation.Datum(3));
 			date4.setText(Wetterstation.Datum(4));
 			date5.setText(Wetterstation.Datum(5));
-			//Verbindung zur DB und Hochladen der Daten
-			con = connector.getConnection();
-			Wetterstation.insertToDatabase(con, place);		
+			//#########################################################################################
+			//Hochladen der Daten
+			Wetterstation.insertToDatabase(con, place);
+			//#########################################################################################
 			//Daten werden sichtbar gemacht
 			search.setVisible(false);
 			wData.setVisible(true);
-			//if(wData.isVisible()) load.setVisible(false);
-			//catch wenn Datenbanktproblem auftritt
+			//if(wData.isVisible()) load.setVisible(false);			
+			//#########################################################################################
 		}catch (ClassNotFoundException | SQLException e) {
+			//catch wenn Datenbanktproblem auftritt
 			System.out.println("Fehler in der Datenbank: "+e);
 			String msg ="Fehler in der Datenbank:\n"+e;
 			errormsg.setText(String.valueOf(msg));
 			err.setVisible(true);
 			wData.setVisible(false);
-			search.setVisible(false);
-			//catch wenn falsche Eingabe
+			search.setVisible(false);			
 		}catch (java.lang.ClassCastException e) {
+			//catch wenn falsche Eingabe
 			System.out.println("[MainController.java.lang.ClassCastException] Fehler: "+e);
 			String msg = "Dieser Ort existiert in Österreich nicht!";
 			errormsg.setText(String.valueOf(msg));
 			err.setVisible(true);
 			wData.setVisible(false);
 			search.setVisible(false);
-			//alle anderen Error
 		}catch(Exception e) {
+			//alle anderen Error
 			System.out.println("[MainController.Methoden] Fehler: "+e);
 			errormsg.setText(String.valueOf(e));
 			err.setVisible(true);
 			wData.setVisible(false);
 			search.setVisible(false);
 		}
-		//load.setVisible(false);
-
-
-
-		//		corrFact.setVisible(true);percip0.setVisible(true);maxT0.setVisible(true);
-		//		minT0.setVisible(true);currentT.setVisible(true);maxT1.setVisible(true);
-		//		minT1.setVisible(true);maxT2.setVisible(true);minT2.setVisible(true);
-		//		maxT3.setVisible(true);minT3.setVisible(true);maxT4.setVisible(true);
-		//		minT4.setVisible(true);maxT5.setVisible(true);minT5.setVisible(true);
-		//		date1.setVisible(true);date2.setVisible(true);date3.setVisible(true);
-		//		date4.setVisible(true);date5.setVisible(true);date3.setVisible(true);
-
-		/*//Verbindung zur DB und Hochladen
-		try {
-			con = connector.getConnection();
-			Wetterstation.insertToDatabase(con, place);
-		} catch (ClassNotFoundException | SQLException e) {
-			System.out.println("Fehler in der Datenbank: "+e);
-		}*/
-		//Bild aus dem Ordner anzeigen
+		//#########################################################################################
+		//Bilder aus dem Ordner anzeigen
 		File file0 = new File("./pictures/"+Wetterstation.iconWB0+".png");
 		Image image0 = new Image(file0.toURI().toString());
 		this.image0.setImage(image0);
@@ -204,6 +192,7 @@ public class MainController implements Initializable {
 		File file5 = new File("./pictures/"+Wetterstation.iconWB5+".png");
 		Image image5 = new Image(file5.toURI().toString());
 		this.image5.setImage(image5);
+		//#########################################################################################
 
 	}
 
