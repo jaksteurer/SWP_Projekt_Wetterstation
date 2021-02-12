@@ -1,1 +1,66 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.button_background{
+	-fx-background-color: transparent; /*#ffffff = Weiﬂ, #5FA9FF = wie toolbar */
+	-fx-background-radius: 10;
+	-fx-text-fill: #ffffff;
+	-fx-border-color: #ffffff;
+	-fx-border-width: 4;
+	-fx-border-radius: 3;
+}
+.button:hover{
+	-fx-background-color:  #ffffff;
+	-fx-text-fill: #000000;
+    -fx-border-radius: 3;
+    /* 
+    -fx-scale-y: 1;
+    -fx-opacity: 0.6;
+    * 
+    */
+}
+.textfield{
+	-fx-background-color: #999999; /*#ffffff = Weiﬂ, #5FA9FF = wie toolbar */
+	-fx-text-fill: #ffffff;
+	-fx-background-radius: 10;	
+	-fx-prompt-text-fill:  #ffffff;
+  	-fx-font-size: 16;
+}
+.AnchorPane{
+	-fx-background-color: #ffffff; /*#407CB0=hellblau */
+}
+.Vbox{
+	-fx-background-color: #999999; /*7E735F= grau */
+	-fx-background-radius: 10;
+	-fx-opacity: 0.9;
+}
+
+.VboxStart{
+	-fx-background-color: #000000;
+	-fx-background-radius: 15;
+	-fx-opacity: 0.4;
+}
+.toolbar{
+	-fx-background-color: #999999 ;/* #3A3840;*/
+	-fx-opacity: 1.1;
+}
+
+
+
+
+
+
+
+
+.separator
+{
+    -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 60% , #9BB6CC, white);
+    -fx-background-radius: 2;
+	-fx-padding:1;
+}
+
+.separator *.line 
+{ 
+	-fx-border-style: solid;
+	-fx-border-width: 0px;
+}
+
+

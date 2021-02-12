@@ -22,15 +22,14 @@ import com.google.gson.stream.JsonReader;
 
 public class Wetterstation {
 
-	static String dGetData = "";
-	static String fcGetData = "";
+	public static String dGetData = "";
+	public static String fcGetData = "";
 
 	static double tempOW;
 	static double temp_maxOW;
 	static double temp_minOW;
 	static double humidityOW;
 	static double windspeedOW;
-
 
 	static double tempWB0;
 	static double max_tempWB0;
@@ -40,45 +39,37 @@ public class Wetterstation {
 	//public weil sie in der Klasse MainController verwendet werden
 	public static double precipitationWB;
 	public static double corrFact;
-	public static String iconWB0;
-	public static String iconWB1;
-	public static String iconWB2;
-	public static String iconWB3;
-	public static String iconWB4;
-	public static String iconWB5;
-	public static double max_tempWB1;
-	public static double low_tempWB1;
-	public static double max_tempWB2;
-	public static double low_tempWB2;
-	public static double max_tempWB3;
-	public static double low_tempWB3;
-	public static double max_tempWB4;
-	public static double low_tempWB4;
-	public static double max_tempWB5;
-	public static double low_tempWB5;
+	public static String iconWB0,iconWB1,iconWB2,iconWB3,iconWB4,iconWB5;
+	public static double max_tempWB1,max_tempWB2,max_tempWB3,max_tempWB4,max_tempWB5;
+	public static double low_tempWB1,low_tempWB2,low_tempWB3,low_tempWB4,low_tempWB5;
 	public static double humidityAV;
 	public static double windspeedAV;
 	public static  double tempAV;
 	public static double max_tempAV;
 	public static  double low_tempAV;
-
+	public static String zipcodePlace;
+	//##################################
+	//Für Details
+	public static double dHumidityWB1,dHumidityWB2,dHumidityWB3,dHumidityWB4,dHumidityWB5;
+	public static double dPercipWB1,dPercipWB2,dPercipWB3,dPercipWB4,dPercipWB5;
+	public static double dWindspeedWB1,dWindspeedWB2,dWindspeedWB3,dWindspeedWB4,dWindspeedWB5;
 	static String weiter = null;
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		//Für Testzwecke und eventuelle Erweiterungen nur auskommentiert und nicht gelöscht
 		//#########################################################################################
 		// Verbindung zur DB herstellen
-//		SQLConnection connector = new SQLConnection();
-//		Connection con = connector.getConnection();
+		SQLConnection connector = new SQLConnection();
+		Connection con = connector.getConnection();
 		//#########################################################################################
 		// Konfigurationsdatei
-//		ConfigFileReader confData = new ConfigFileReader();
-//		String defPlace = confData.getConfigFile();
+		ConfigFileReader confData = new ConfigFileReader();
+		String defPlace = confData.getConfigFile();
 		//#########################################################################################
 		// Ort abfragen
-		//String place = requestPlace();
+		String place = requestPlace();
 		//#########################################################################################
-		/*if (place.equals("d")) {
+		if (place.equals("d")) {
 			place = defPlace;
 			System.err.println("Wetter für den Defalut-Ort " + place + ":");
 			readCurrentWeatherAPI(place);
@@ -86,6 +77,8 @@ public class Wetterstation {
 			showCurrentWeather(place);
 			showForecastWeather(place);
 			insertToDatabase(con, place);
+			dGetData="";
+			fcGetData="";
 		}
 		if (place != null && !place.equals("d")) {
 			System.err.println("Wetter für den Ort " + place + ":");
@@ -94,9 +87,11 @@ public class Wetterstation {
 			showCurrentWeather(place);
 			showForecastWeather(place);
 			// insertToDatabase(con, place);
+			dGetData="";
+			fcGetData="";
 		} else {
 			System.out.println("Eingabe überprüfen");
-		}*/
+		}
 		//#########################################################################################
 		// Verbindung zur DB trennen
 		//connector.releaseConnection(con);
@@ -159,6 +154,7 @@ public class Wetterstation {
 		temp_minOW 	= jsondataCurrent.getAsJsonObject("main").get("temp_min").getAsDouble();
 		humidityOW 	= jsondataCurrent.getAsJsonObject("main").get("humidity").getAsDouble();
 		windspeedOW = jsondataCurrent.getAsJsonObject("wind").get("speed").getAsDouble();
+		zipcodePlace = jsondataCurrent.getAsJsonPrimitive("name").getAsString();
 		//#########################################################################################
 		//(BONUS) Durchschnittswerte Berechnen
 		tempAV 		= Math.round((tempOW+tempWB0)/2*100)/100.;
@@ -191,7 +187,7 @@ public class Wetterstation {
 		ImageDownloader today = new ImageDownloader();
 		today.imageDownloaderOW(iconId);
 		//#########################################################################################
-	}
+		}
 	public static void showForecastWeather(String place) {		
 		// Daten Weatherbit.io Ausgabe über Gson
 		JsonReader reader = new JsonReader(new StringReader(fcGetData));
@@ -215,16 +211,37 @@ public class Wetterstation {
 		//System.out.println("data1: "+data1); //Funktioniert
 		//#########################################################################################
 		//Variablen werden befüllt
+		//day1
 		max_tempWB1 = data1.get("max_temp").getAsDouble();
 		low_tempWB1 = data1.get("low_temp").getAsDouble();
+		dHumidityWB1 = data1.get("pop").getAsDouble();
+		dPercipWB1 = data1.get("rh").getAsDouble();
+		dWindspeedWB1 = Math.round(data1.get("wind_spd").getAsDouble()*100)/100.;
+		//icon wird weiter unten erstellt
+		//day2
 		max_tempWB2 = data2.get("max_temp").getAsDouble();
 		low_tempWB2 = data2.get("low_temp").getAsDouble();
+		dHumidityWB2 = data2.get("pop").getAsDouble();
+		dPercipWB2 = data2.get("rh").getAsDouble();
+		dWindspeedWB2 = Math.round(data2.get("wind_spd").getAsDouble()*100)/100.;
+		//day3
 		max_tempWB3 = data3.get("max_temp").getAsDouble();
 		low_tempWB3 = data3.get("low_temp").getAsDouble();
+		dHumidityWB3 = data3.get("pop").getAsDouble();
+		dPercipWB3 = data3.get("rh").getAsDouble();
+		dWindspeedWB3 = Math.round(data3.get("wind_spd").getAsDouble()*100)/100.;
+		//day4
 		max_tempWB4 = data4.get("max_temp").getAsDouble();
 		low_tempWB4 = data4.get("low_temp").getAsDouble();
+		dHumidityWB4 = data4.get("pop").getAsDouble();
+		dPercipWB4 = data4.get("rh").getAsDouble();
+		dWindspeedWB4 = Math.round(data4.get("wind_spd").getAsDouble()*100)/100.;
+		//day5
 		max_tempWB5 = data5.get("max_temp").getAsDouble();
-		low_tempWB5 = data5.get("low_temp").getAsDouble();
+		low_tempWB5 = data5.get("low_temp").getAsDouble();	
+		dHumidityWB5 = data5.get("pop").getAsDouble();
+		dPercipWB5 = data5.get("rh").getAsDouble();
+		dWindspeedWB5 = Math.round(data5.get("wind_spd").getAsDouble()*100)/100.;
 		//#########################################################################################
 		//forecast day 1
 		System.out.println("Morgen: ("+Datum(1)+")"); 	//Alternative zum Datum: data1.get("datetime");
@@ -238,8 +255,11 @@ public class Wetterstation {
 		iconWB1 = Icon1.get("icon").getAsString();
 		System.out.println("\tICON-ID:\t\t"+iconWB1);
 		//ImageDownloader
-		ImageDownloader tomorrow = new ImageDownloader();
-		tomorrow.imageDownloaderWB(iconWB1);
+		ImageDownloader downloader = new ImageDownloader();
+		downloader.imageDownloaderWB(iconWB1);
+		ImageHandler handler1 = new ImageHandler();		
+		iconWB1 = handler1.getImage(iconWB1);
+		System.err.println("\thandler-ICON-ID:\t"+iconWB1);
 		//#########################################################################################
 		//forecast day 2
 		System.out.println("in 2 Tagen: ("+Datum(2)+")");	//Alternative zum Datum: data2.get("datetime");
@@ -255,6 +275,9 @@ public class Wetterstation {
 		//ImageDownloader
 		ImageDownloader two = new ImageDownloader();
 		two.imageDownloaderWB(iconWB2);
+		ImageHandler handler2 = new ImageHandler();		
+		iconWB2 = handler2.getImage(iconWB2);
+		System.err.println("\thandler-ICON-ID:\t"+iconWB2);
 		//#########################################################################################
 		//forecast day 3
 		System.out.println("in 3 Tagen: ("+Datum(3)+")");	//Alternative zum Datum: data3.get("datetime");
@@ -270,6 +293,9 @@ public class Wetterstation {
 		//ImageDownloader
 		ImageDownloader three = new ImageDownloader();
 		three.imageDownloaderWB(iconWB3);
+		ImageHandler handler3 = new ImageHandler();		
+		iconWB3 = handler3.getImage(iconWB3);
+		System.err.println("\thandler-ICON-ID:\t"+iconWB3);
 		//#########################################################################################
 		//forecast day 4
 		System.out.println("in 4 Tagen:("+Datum(4)+")");	//Alternative zum Datum: data4.get("datetime");
@@ -285,6 +311,9 @@ public class Wetterstation {
 		//ImageDownloader
 		ImageDownloader four = new ImageDownloader();
 		four.imageDownloaderWB(iconWB4);
+		ImageHandler handler4 = new ImageHandler();		
+		iconWB4 = handler4.getImage(iconWB4);
+		System.err.println("\thandler-ICON-ID:\t"+iconWB4);
 		//#########################################################################################
 		//forecast day 5
 		System.out.println("in 5 Tagen:("+Datum(5)+")");	//Alternative zum Datum: data5.get("datetime");
@@ -300,6 +329,9 @@ public class Wetterstation {
 		//ImageDownloader
 		ImageDownloader five = new ImageDownloader();
 		five.imageDownloaderWB(iconWB5);
+		ImageHandler handler5 = new ImageHandler();	
+		iconWB5 = handler5.getImage(iconWB5);
+		System.err.println("\thandler-ICON-ID:\t"+iconWB5);
 		//#########################################################################################
 	}
 	public static void showForecastWeatherToday(String place) {
@@ -331,6 +363,8 @@ public class Wetterstation {
 		//ImageDownloader
 		ImageDownloader five = new ImageDownloader();
 		five.imageDownloaderWB(iconWB0);
+		ImageHandler handler0 = new ImageHandler();	
+		iconWB0 = handler0.getImage(iconWB0);
 		//#########################################################################################
 	}
 	public static String requestPlace() {
@@ -344,12 +378,22 @@ public class Wetterstation {
 		return place;
 	}
 	public static void readCurrentWeatherAPI(String place) {
-		//save current day weather API json request in String
-		URL dUrl;
+		URL dUrl = null;
 		try {
-			//URL wird erstellt und es wird eine Http Connection hergestellt 
-			dUrl = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + place
-					+ ",at&units=metric&appid=793d753c4a6623defbfafdce3d337e9b");
+			for(int i=0; i<place.length();i++) {
+				//prüft jedes zeichen in der schleife und gibt true oder false zurück
+				if(Character.isDigit(place.charAt(i))) {
+					//Datenabfrage über Postleitzahl
+					dUrl = new URL("http://api.openweathermap.org/data/2.5/weather?zip="+place
+							+",at&units=metric&appid=793d753c4a6623defbfafdce3d337e9b");
+				}else {
+					//Datenabfrage über Ortseingabe
+					dUrl = new URL("http://api.openweathermap.org/data/2.5/weather?q="+place
+							+",at&units=metric&appid=793d753c4a6623defbfafdce3d337e9b");
+				}
+					
+			}
+			//URL wird erstellt und es wird eine Http Connection hergestellt			
 			HttpURLConnection dConn = (HttpURLConnection) dUrl.openConnection();
 			dConn.setRequestMethod("GET");
 			dConn.connect();
@@ -381,11 +425,22 @@ public class Wetterstation {
 	}
 	public static void readForecastWeatherAPI(String place) {
 		// save forecast weather API json request in String
-		URL fcUrl;
+		URL fcUrl=null;
 		try {
+			for(int i=0; i<place.length();i++) {
+				//prüft jedes zeichen in der schleife und gibt true oder false zurück
+				if(Character.isDigit(place.charAt(i))) {
+					//Datenabfrage über Postleitzahl
+					fcUrl = new URL("https://api.weatherbit.io/v2.0/forecast/daily?&postal_code="+place+
+							"&country=at&days=9&lang=de&key=1c3d135c16f640c1823ce502f303e586");
+				}else {
+					//Datenabfrage über Ortseingabe
+					fcUrl = new URL("https://api.weatherbit.io/v2.0/forecast/daily?city="+place
+							+"&country=at&days=9&lang=de&key=1c3d135c16f640c1823ce502f303e586"); //Bei days=6 oder 7 kommen andere Werte; 
+				}
+					
+			}
 			//URL wird erstellt und es wird eine Http Connection hergestellt 
-			fcUrl = new URL("https://api.weatherbit.io/v2.0/forecast/daily?city="+place
-					+"&country=at&days=9&lang=de&key=1c3d135c16f640c1823ce502f303e586"); //Bei days=6 oder 7 kommen andere Werte; 
 			HttpURLConnection fcConn = (HttpURLConnection) fcUrl.openConnection();
 			fcConn.setRequestMethod("GET");
 			fcConn.connect();
@@ -436,6 +491,10 @@ public class Wetterstation {
 				+ "	mintempInCelsius = VALUES(mintempInCelsius)," + "	humidityInPercent = VALUES(humidityInPercent),"
 				+ "	windInKilometerPerHour = VALUES(windInKilometerPerHour);";
 		PreparedStatement stm = null;
+		//#########################################################################################
+		//Wenn Postleitzahl eingegeben wurde soll in DB der Ortsname gespeichert werden statt
+		//der Postleitzahl
+		if(!place.equals(zipcodePlace)) place=zipcodePlace;			
 		//#########################################################################################
 		try {
 			//Variablen werden in die Datenbank geladen

@@ -25,7 +25,7 @@ public class ImageDownloader {
 			//Url wird ausgelesen
 			image = ImageIO.read(url);
 			//Datei wird als png format im angegebenen Ordner unter vorgegebenen namen gespeichert
-			ImageIO.write(image, "png", new File("./pictures/"+iconId+".png"));
+			ImageIO.write(image, "png", new File("./originalIcons/"+iconId+".png"));
 			//System.out.println("success");
 		}catch(IOException e) {
 			System.out.println("[imageDownloaderOW] Fehler: "+e);
@@ -42,7 +42,7 @@ public class ImageDownloader {
 			//Url wird ausgelesen
 			image = ImageIO.read(url);
 			//Datei wird als png format im angegebenen Ordner unter vorgegebenen namen gespeichert
-			ImageIO.write(image, "png", new File("./pictures/"+iconId+".png"));
+			ImageIO.write(image, "png", new File("./originalIcons/"+iconId+".png"));
 			//System.out.println("success");
 		}catch(IOException e) {
 			System.out.println("[imageDownloaderWB] Fehler: "+e);
