@@ -107,11 +107,17 @@ public class MainController implements Initializable {
 			minT4.setText(String.valueOf(Wetterstation.low_tempWB4)+" °C");
 			maxT5.setText(String.valueOf(Wetterstation.max_tempWB5)+" °C");
 			minT5.setText(String.valueOf(Wetterstation.low_tempWB5)+" °C");
-			date1.setText(Wetterstation.Datum(1));
-			date2.setText(Wetterstation.Datum(2));
-			date3.setText(Wetterstation.Datum(3));
-			date4.setText(Wetterstation.Datum(4));
-			date5.setText(Wetterstation.Datum(5));
+			date1.setText(Wetterstation.getWeekday(Wetterstation.Datum(1)));
+			date2.setText(Wetterstation.getWeekday(Wetterstation.Datum(2)));
+			date3.setText(Wetterstation.getWeekday(Wetterstation.Datum(3)));
+			date4.setText(Wetterstation.getWeekday(Wetterstation.Datum(4)));
+			date5.setText(Wetterstation.getWeekday(Wetterstation.Datum(5)));
+			
+			tomorrow.setText(Wetterstation.getWeekday(Wetterstation.Datum(1)));
+			twodays.setText(Wetterstation.getWeekday(Wetterstation.Datum(2)));
+			threedays.setText(Wetterstation.getWeekday(Wetterstation.Datum(3)));
+			fourdays.setText(Wetterstation.getWeekday(Wetterstation.Datum(4)));
+			fivedays.setText(Wetterstation.getWeekday(Wetterstation.Datum(5)));
 			//#########################################################################################
 			//Hochladen der Daten
 			Wetterstation.insertToDatabase(con, place);

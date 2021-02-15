@@ -1,20 +1,22 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .button_background{
 	-fx-background-color: transparent; /*#ffffff = Weiﬂ, #5FA9FF = wie toolbar */
-	-fx-background-radius: 10;
 	-fx-text-fill: #ffffff;
 	-fx-border-color: #ffffff;
-	-fx-border-width: 4;
 	-fx-border-radius: 3;
+	-fx-border-width: 2;
+	
 }
 .button:hover{
-	-fx-background-color:  #ffffff;
+	-fx-background-radius: 7;
 	-fx-text-fill: #000000;
+	-fx-border-color: #000000;
     -fx-border-radius: 3;
+    -fx-border-width: 2;
+    
     /* 
     -fx-scale-y: 1;
     -fx-opacity: 0.6;
-    * 
     */
 }
 .textfield{

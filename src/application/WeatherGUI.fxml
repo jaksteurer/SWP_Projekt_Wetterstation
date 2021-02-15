@@ -24,7 +24,7 @@
             <VBox layoutX="513.0" layoutY="40.0" prefHeight="90.0" prefWidth="101.0" styleClass="Vbox" stylesheets="@application.css" />
             <Label alignment="CENTER" layoutX="487.0" layoutY="313.0" text="Fehlerursache: ">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="24.0" />
                </font></Label>
             <Label alignment="CENTER" layoutX="309.0" layoutY="159.0" prefHeight="70.0" prefWidth="507.0" text="Ein Fehler ist aufgetreten" textAlignment="CENTER" textFill="RED">
                <font>
@@ -52,7 +52,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="search" layoutY="67.0" prefHeight="566.0" prefWidth="1125.0" visible="false">
+      <Pane fx:id="search" layoutY="67.0" prefHeight="566.0" prefWidth="1125.0">
          <children>
             <VBox layoutX="379.0" layoutY="55.0" prefHeight="129.0" prefWidth="370.0" styleClass="VboxStart" stylesheets="@application.css" />
             <Label alignment="CENTER" layoutX="379.0" layoutY="55.0" prefHeight="90.0" prefWidth="370.0" text="Wetter Application" textFill="#37353d">
@@ -118,27 +118,27 @@
       <Pane fx:id="details" prefHeight="633.0" prefWidth="137.0">
          <children>
             <VBox prefHeight="633.0" prefWidth="137.0" styleClass="toolbar" stylesheets="@application.css" />
-            <Button fx:id="tomorrow" layoutX="6.0" layoutY="150.0" mnemonicParsing="false" onAction="#showDetailsTomorrow" prefHeight="50.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="TOMORROW" textFill="#1d1b26">
+            <Button fx:id="tomorrow" layoutX="6.0" layoutY="150.0" mnemonicParsing="false" onAction="#showDetailsTomorrow" prefHeight="35.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="Tomorrow" textFill="#1d1b26">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Button>
-            <Button fx:id="twodays" layoutX="6.0" layoutY="250.0" mnemonicParsing="false" onAction="#showDetailsTwoDays" prefHeight="50.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="2 DAYS" textFill="#1d1b26">
+            <Button fx:id="twodays" layoutX="6.0" layoutY="250.0" mnemonicParsing="false" onAction="#showDetailsTwoDays" prefHeight="35.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="2 DAYS" textFill="#1d1b26">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Button>
-            <Button fx:id="threedays" layoutX="6.0" layoutY="350.0" mnemonicParsing="false" onAction="#showDetailsThreeDays" prefHeight="50.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="3 DAYS" textFill="#1d1b26">
+            <Button fx:id="threedays" layoutX="6.0" layoutY="350.0" mnemonicParsing="false" onAction="#showDetailsThreeDays" prefHeight="35.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="3 DAYS" textFill="#1d1b26">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Button>
-            <Button fx:id="fourdays" layoutX="6.0" layoutY="450.0" mnemonicParsing="false" onAction="#showDetailsFourDays" prefHeight="50.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="4 DAYS" textFill="#1d1b26">
+            <Button fx:id="fourdays" layoutX="6.0" layoutY="450.0" mnemonicParsing="false" onAction="#showDetailsFourDays" prefHeight="35.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="4 DAYS" textFill="#1d1b26">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Button>
-            <Button fx:id="fivedays" layoutX="6.0" layoutY="550.0" mnemonicParsing="false" onAction="#showDetailsFiveDays" prefHeight="50.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="5 DAYS" textFill="#1d1b26">
+            <Button fx:id="fivedays" layoutX="6.0" layoutY="550.0" mnemonicParsing="false" onAction="#showDetailsFiveDays" prefHeight="35.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="5 DAYS" textFill="#1d1b26">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Button>
-            <Button fx:id="home" layoutX="6.0" layoutY="50.0" mnemonicParsing="false" onAction="#home" prefHeight="50.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="HOME" textFill="#000000cc">
+            <Button fx:id="home" layoutX="6.0" layoutY="50.0" mnemonicParsing="false" onAction="#home" prefHeight="35.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="Startseite" textFill="#000000cc">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Button>
@@ -162,12 +162,12 @@
                   <Image url="@../../newIcons/mostlycloudy.png" />
                </image>
             </ImageView>
-            <Label fx:id="maxT1" alignment="CENTER" layoutX="19.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="maxT1" alignment="CENTER" layoutX="19.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C" textFill="RED">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="minT1" alignment="CENTER" layoutX="19.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="minT1" alignment="CENTER" layoutX="19.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C" textFill="#001eff">
                <font>
                   <Font size="21.0" />
                </font>
@@ -183,12 +183,12 @@
                   <Image url="@../../newIcons/mostlycloudy.png" />
                </image>
             </ImageView>
-            <Label fx:id="maxT2" alignment="CENTER" layoutX="214.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="maxT2" alignment="CENTER" layoutX="214.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C" textFill="RED">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="minT2" alignment="CENTER" layoutX="214.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="minT2" alignment="CENTER" layoutX="214.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C" textFill="#001eff">
                <font>
                   <Font size="21.0" />
                </font>
@@ -204,12 +204,12 @@
                   <Image url="@../../newIcons/mostlycloudy.png" />
                </image>
             </ImageView>
-            <Label fx:id="maxT3" alignment="CENTER" layoutX="409.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="maxT3" alignment="CENTER" layoutX="409.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C" textFill="RED">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="minT3" alignment="CENTER" layoutX="409.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="minT3" alignment="CENTER" layoutX="409.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C" textFill="#001eff">
                <font>
                   <Font size="21.0" />
                </font>
@@ -225,12 +225,12 @@
                   <Image url="@../../newIcons/mostlycloudy.png" />
                </image>
             </ImageView>
-            <Label fx:id="maxT4" alignment="CENTER" layoutX="604.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="maxT4" alignment="CENTER" layoutX="604.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C" textFill="RED">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="minT4" alignment="CENTER" layoutX="604.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="minT4" alignment="CENTER" layoutX="604.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C" textFill="#001eff">
                <font>
                   <Font size="21.0" />
                </font>
@@ -246,12 +246,12 @@
                   <Image url="@../../newIcons/mostlycloudy.png" />
                </image>
             </ImageView>
-            <Label fx:id="maxT5" alignment="CENTER" layoutX="799.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="maxT5" alignment="CENTER" layoutX="799.0" layoutY="387.0" prefWidth="170.0" text="0,00 °C" textFill="RED">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="minT5" alignment="CENTER" layoutX="799.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C">
+            <Label fx:id="minT5" alignment="CENTER" layoutX="799.0" layoutY="506.0" prefWidth="170.0" text="0,00 °C" textFill="#001eff">
                <font>
                   <Font size="21.0" />
                </font>
@@ -262,17 +262,17 @@
                </font>
             </Label>
             <VBox layoutX="639.0" layoutY="25.0" prefHeight="291.0" prefWidth="326.0" styleClass="Vbox" stylesheets="@application.css" />
-            <Label fx:id="currentT" alignment="CENTER" layoutX="652.0" layoutY="83.0" prefHeight="27.0" prefWidth="150.0" text="0,00 °C">
+            <Label fx:id="currentT" alignment="CENTER" layoutX="291.0" layoutY="147.0" prefHeight="83.0" prefWidth="326.0" text="0,00 °C">
+               <font>
+                  <Font name="System Bold" size="56.0" />
+               </font>
+            </Label>
+            <Label fx:id="maxT0" alignment="CENTER" layoutX="652.0" layoutY="173.0" prefHeight="27.0" prefWidth="150.0" text="0,00 °C" textFill="RED">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="maxT0" alignment="CENTER" layoutX="652.0" layoutY="173.0" prefHeight="27.0" prefWidth="150.0" text="0,00 °C">
-               <font>
-                  <Font size="21.0" />
-               </font>
-            </Label>
-            <Label fx:id="minT0" alignment="CENTER" layoutX="802.0" layoutY="173.0" prefHeight="27.0" prefWidth="150.0" text="0,00 °C">
+            <Label fx:id="minT0" alignment="CENTER" layoutX="802.0" layoutY="173.0" prefHeight="27.0" prefWidth="150.0" text="0,00 °C" textFill="BLUE">
                <font>
                   <Font size="21.0" />
                </font>
@@ -292,12 +292,12 @@
                   <Font size="21.0" />
                </font>
             </Label>
-            <ImageView fitHeight="53.0" fitWidth="40.0" layoutX="434.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="53.0" fitWidth="40.0" layoutX="700.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../.github/icons8-innentemperatur-100.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="53.0" fitWidth="40.0" layoutX="700.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="53.0" fitWidth="40.0" layoutX="434.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../.github/006-thermometer.png" />
                </image>
@@ -327,9 +327,9 @@
                   <Image url="@../../.github/001-wind.png" />
                </image>
             </ImageView>
-            <Label fx:id="corrFact" alignment="CENTER" layoutX="291.0" layoutY="147.0" prefHeight="83.0" prefWidth="326.0" text="0,00 °C">
+            <Label fx:id="corrFact" alignment="CENTER" layoutX="652.0" layoutY="83.0" prefHeight="27.0" prefWidth="150.0" text="0,00 °C">
                <font>
-                  <Font name="System Bold" size="56.0" />
+                  <Font size="21.0" />
                </font>
             </Label>
          </children>
@@ -367,12 +367,12 @@
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="dMaxT" alignment="CENTER" layoutX="455.0" layoutY="206.0" prefHeight="30.0" prefWidth="150.0" text="0,00 °C">
+            <Label fx:id="dMaxT" alignment="CENTER" layoutX="455.0" layoutY="206.0" prefHeight="30.0" prefWidth="150.0" text="0,00 °C" textFill="RED">
                <font>
                   <Font size="21.0" />
                </font>
             </Label>
-            <Label fx:id="dMinT" alignment="CENTER" layoutX="685.0" layoutY="206.0" prefHeight="30.0" prefWidth="150.0" text="0,00 °C">
+            <Label fx:id="dMinT" alignment="CENTER" layoutX="685.0" layoutY="206.0" prefHeight="30.0" prefWidth="150.0" text="0,00 °C" textFill="BLUE">
                <font>
                   <Font size="21.0" />
                </font>

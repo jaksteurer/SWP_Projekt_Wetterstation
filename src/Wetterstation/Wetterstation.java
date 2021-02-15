@@ -9,11 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.Scanner;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -30,6 +34,7 @@ public class Wetterstation {
 	static double temp_minOW;
 	static double humidityOW;
 	static double windspeedOW;
+	//static String day;
 
 	static double tempWB0;
 	static double max_tempWB0;
@@ -56,6 +61,9 @@ public class Wetterstation {
 	static String weiter = null;
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
+		
+		getWeekday(Datum(1));
+		/*
 		//Für Testzwecke und eventuelle Erweiterungen nur auskommentiert und nicht gelöscht
 		//#########################################################################################
 		// Verbindung zur DB herstellen
@@ -95,6 +103,8 @@ public class Wetterstation {
 		//#########################################################################################
 		// Verbindung zur DB trennen
 		//connector.releaseConnection(con);
+		 * 
+		 */
 	}
 	//#############################################################################################
 	public static String Datum(int datum) {
@@ -135,6 +145,20 @@ public class Wetterstation {
 		}
 		return "Wert muss zwischen 0 und 5 liegen";
 		//#########################################################################################
+	}
+	public static String getWeekday(String date) {
+		/*
+		 * https://www.java-forum.org/thema/wochentag-berechnen.172463/
+		 * https://de.w3docs.com/snippets/java/wie-kann-man-einen-string-in-java-trennen.html
+		 */
+		String yyyy, mm, dd;
+		String [] arrOfStr = date.split("-"); 
+		yyyy = arrOfStr[0];
+		mm = arrOfStr[1];
+		dd = arrOfStr[2];
+		String day= LocalDate.of(Integer.parseInt(yyyy),Integer.parseInt(mm),Integer.parseInt(dd)).getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.GERMAN).toString();	
+        //System.out.println("Datum: "+date+"\nTag: "+day);
+        return day;
 	}
 	public static void showCurrentWeather(String place) {
 		// Diese Methode belegt Werte von anderer API (WB) für Durchschnittsberechnung
@@ -187,7 +211,7 @@ public class Wetterstation {
 		ImageDownloader today = new ImageDownloader();
 		today.imageDownloaderOW(iconId);
 		//#########################################################################################
-		}
+	}
 	public static void showForecastWeather(String place) {		
 		// Daten Weatherbit.io Ausgabe über Gson
 		JsonReader reader = new JsonReader(new StringReader(fcGetData));
@@ -391,23 +415,23 @@ public class Wetterstation {
 					dUrl = new URL("http://api.openweathermap.org/data/2.5/weather?q="+place
 							+",at&units=metric&appid=793d753c4a6623defbfafdce3d337e9b");
 				}
-					
+
 			}
 			//URL wird erstellt und es wird eine Http Connection hergestellt			
 			HttpURLConnection dConn = (HttpURLConnection) dUrl.openConnection();
 			dConn.setRequestMethod("GET");
 			dConn.connect();
-		//#########################################################################################
+			//#########################################################################################
 			//Responsecode wird benötigt für http requests --> 200 = Normalzustand (HTML und NWES Unterricht)
 			int dResponsecode = dConn.getResponseCode();
 			// System.out.println("Code: "+dResponsecode);
-		//#########################################################################################
+			//#########################################################################################
 			if (dResponsecode != 200) { //200 ist code für Normalzustand (NWES Unterricht)
 				System.out.println("Bitte sinnvollen Ort eingeben!");
 				// System.out.println("[readCurrentWeatherAPI]HttpResonseCode: "+dResponsecode);
 				// System.out.println("Help for responsecodes:
 				// https://www.tutorialspoint.com/servlets/servlets-http-status-codes.htm");
-		//#########################################################################################
+				//#########################################################################################
 			} else {
 				Scanner sc = new Scanner(dUrl.openStream());
 				while (sc.hasNext()) {
@@ -416,7 +440,7 @@ public class Wetterstation {
 				}
 				sc.close();
 			}
-		//#########################################################################################
+			//#########################################################################################
 		} catch (IOException e) {
 			System.out
 			.println("[readCurrentWeatherAPI] ungeklärter Fehler beim Einlesen der Current Weather API: " + e);
@@ -438,17 +462,17 @@ public class Wetterstation {
 					fcUrl = new URL("https://api.weatherbit.io/v2.0/forecast/daily?city="+place
 							+"&country=at&days=9&lang=de&key=1c3d135c16f640c1823ce502f303e586"); //Bei days=6 oder 7 kommen andere Werte; 
 				}
-					
+
 			}
 			//URL wird erstellt und es wird eine Http Connection hergestellt 
 			HttpURLConnection fcConn = (HttpURLConnection) fcUrl.openConnection();
 			fcConn.setRequestMethod("GET");
 			fcConn.connect();
-		//#########################################################################################
+			//#########################################################################################
 			//Responsecode wird benötigt für http requests --> 200 = Normalzustand (HTML und NWES Unterricht)
 			int fcResponsecode = fcConn.getResponseCode();
 			// System.out.println("Code: "+fcResponsecode);
-		//#########################################################################################
+			//#########################################################################################
 			if (fcResponsecode != 200) { //200 ist code für Normalzustand (NWES Unterricht)
 				/*
 				 * Wird nur abgefangen und ignoriert, weil bei falscher Ortseingabe bei jeder Methode diese
@@ -458,7 +482,7 @@ public class Wetterstation {
 				 * System.out.println("Help for responsecodes: https://www.tutorialspoint.com/servlets/servlets-http-status-codes.htm");
 				 * 
 				 */
-		//#########################################################################################
+				//#########################################################################################
 			} else {
 				Scanner sc = new Scanner(fcUrl.openStream());
 				while (sc.hasNext()) {
@@ -466,7 +490,7 @@ public class Wetterstation {
 				}
 				sc.close();
 			}
-		//#########################################################################################
+			//#########################################################################################
 		} catch (IOException e) {
 			System.out.println(
 					"[readForecastWeatherAPI] ungeklärter Fehler beim Einlesen der Forecast Weather API: " + e);
@@ -506,7 +530,7 @@ public class Wetterstation {
 			stm.setDouble(4, humidityAV);
 			stm.setDouble(5, windspeedAV);
 			stm.executeUpdate();
-		//#########################################################################################
+			//#########################################################################################
 		} catch (NullPointerException e) {
 			/*
 			 * Wird nur abgefangen und ignoriert, weil bei falscher Ortseingabe bei jeder Methode diese
