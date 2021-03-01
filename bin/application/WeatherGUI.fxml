@@ -115,7 +115,7 @@
             <Separator layoutX="278.0" layoutY="233.0" prefHeight="21.0" prefWidth="570.0" />
          </children>
       </Pane>
-      <Pane fx:id="details" prefHeight="633.0" prefWidth="137.0">
+      <Pane fx:id="details" prefHeight="633.0" prefWidth="137.0" visible="false">
          <children>
             <VBox prefHeight="633.0" prefWidth="137.0" styleClass="toolbar" stylesheets="@application.css" />
             <Button fx:id="tomorrow" layoutX="6.0" layoutY="150.0" mnemonicParsing="false" onAction="#showDetailsTomorrow" prefHeight="35.0" prefWidth="125.0" styleClass="button_background" stylesheets="@application.css" text="Tomorrow" textFill="#1d1b26">
@@ -423,5 +423,14 @@
                </image>
             </ImageView>
          </children></Pane>
+      <ToggleButton fx:id="tb" layoutX="901.0" layoutY="15.0" mnemonicParsing="false" onAction="#tbPressed" prefHeight="40.0" prefWidth="65.0" stylesheets="@application.css" text="AT">
+         <font>
+            <Font size="23.0" />
+         </font></ToggleButton>
+      <Label layoutX="840.0" layoutY="23.0" prefHeight="34.0" prefWidth="61.0" text="Land: ">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

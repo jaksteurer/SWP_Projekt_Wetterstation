@@ -1,17 +1,17 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 .button_background{
-	-fx-background-color: transparent; /*#ffffff = Weiﬂ, #5FA9FF = wie toolbar */
+	-fx-background-color: transparent; /*#ffffff = Weiﬂ, #5FA9FF = wie toolbar*/ 
 	-fx-text-fill: #ffffff;
 	-fx-border-color: #ffffff;
-	-fx-border-radius: 3;
+	-fx-border-radius: 8;
 	-fx-border-width: 2;
-	
 }
+
 .button:hover{
 	-fx-background-radius: 7;
 	-fx-text-fill: #000000;
 	-fx-border-color: #000000;
-    -fx-border-radius: 3;
+    -fx-border-radius: 8;
     -fx-border-width: 2;
     
     /* 
@@ -19,6 +19,18 @@
     -fx-opacity: 0.6;
     */
 }
+
+.toggle-button{
+	-fx-text-fill: black;
+    -fx-background-color: rgba(153,153,153,0.6); /* #999999;*/
+}
+/*
+.toggle-button:selected {
+ 	-fx-text-fill: black;
+    -fx-background-color: rgba(153,153,153,0.8); /* #999999;
+}*/
+
+
 .textfield{
 	-fx-background-color: #999999; /*#ffffff = Weiﬂ, #5FA9FF = wie toolbar */
 	-fx-text-fill: #ffffff;
@@ -44,14 +56,6 @@
 	-fx-background-color: #999999 ;/* #3A3840;*/
 	-fx-opacity: 1.1;
 }
-
-
-
-
-
-
-
-
 .separator
 {
     -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 60% , #9BB6CC, white);
@@ -64,5 +68,25 @@
 	-fx-border-style: solid;
 	-fx-border-width: 0px;
 }
+
+
+ /*
+.toggle-button {
+    -fx-text-fill: black;
+    -fx-base: transparent;
+    -fx-background-color: #0c00ff;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: null;
+}
+
+.toggle-button:selected {
+    -fx-text-fill: black;
+    -fx-base: transparent;
+    -fx-background-color: #ff0000;
+    -fx-focus-color: transparent;
+    -fx-border-color: transparent;
+    -fx-effect: null;
+}*/
 
 

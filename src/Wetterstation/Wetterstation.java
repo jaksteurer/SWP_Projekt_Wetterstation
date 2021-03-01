@@ -28,12 +28,14 @@ public class Wetterstation {
 
 	public static String dGetData = "";
 	public static String fcGetData = "";
+	public static String land = "at";
 
 	static double tempOW;
 	static double temp_maxOW;
 	static double temp_minOW;
 	static double humidityOW;
 	static double windspeedOW;
+	
 	//static String day;
 
 	static double tempWB0;
@@ -409,11 +411,11 @@ public class Wetterstation {
 				if(Character.isDigit(place.charAt(i))) {
 					//Datenabfrage über Postleitzahl
 					dUrl = new URL("http://api.openweathermap.org/data/2.5/weather?zip="+place
-							+",at&units=metric&appid=793d753c4a6623defbfafdce3d337e9b");
+							+","+land+"&units=metric&appid=793d753c4a6623defbfafdce3d337e9b&lang=de");
 				}else {
 					//Datenabfrage über Ortseingabe
 					dUrl = new URL("http://api.openweathermap.org/data/2.5/weather?q="+place
-							+",at&units=metric&appid=793d753c4a6623defbfafdce3d337e9b");
+							+","+land+"&units=metric&appid=793d753c4a6623defbfafdce3d337e9b&lang=de");
 				}
 
 			}
@@ -456,11 +458,11 @@ public class Wetterstation {
 				if(Character.isDigit(place.charAt(i))) {
 					//Datenabfrage über Postleitzahl
 					fcUrl = new URL("https://api.weatherbit.io/v2.0/forecast/daily?&postal_code="+place+
-							"&country=at&days=9&lang=de&key=1c3d135c16f640c1823ce502f303e586");
+							"&country="+land+"&days=9&lang=de&key=1c3d135c16f640c1823ce502f303e586");
 				}else {
 					//Datenabfrage über Ortseingabe
 					fcUrl = new URL("https://api.weatherbit.io/v2.0/forecast/daily?city="+place
-							+"&country=at&days=9&lang=de&key=1c3d135c16f640c1823ce502f303e586"); //Bei days=6 oder 7 kommen andere Werte; 
+							+"&country="+land+"&days=9&lang=de&key=1c3d135c16f640c1823ce502f303e586"); //Bei days=6 oder 7 kommen andere Werte; 
 				}
 
 			}

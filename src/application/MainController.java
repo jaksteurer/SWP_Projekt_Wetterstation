@@ -5,12 +5,18 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import javax.swing.JToggleButton;
+
 import Wetterstation.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -36,7 +42,7 @@ public class MainController implements Initializable {
 	@FXML
 	private Pane wData, search, err;
 	//###################################
-	//Details for each day
+	//Details for each day (forecast)
 	@FXML
 	private Pane details, showdetails;
 	@FXML
@@ -45,11 +51,23 @@ public class MainController implements Initializable {
 	private Label dWindspeed, dPercip, dHumidity, dMaxT, dMinT, dPlace, fursache;
 	@FXML
 	private ImageView dImage;
-	
+	@FXML
+	private ToggleButton tb;
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub	
+	}
+
+	public void tbPressed() {	
+		if(tb.isSelected()) {
+			tb.setText("AT");
+			Wetterstation.land = "at";
+		}else if(tb.isSelected()==false) {
+			tb.setText("DE");
+			Wetterstation.land = "de";	
+		}
 	}
 
 	public void start(/*ActionEvent event*/) {
@@ -68,9 +86,8 @@ public class MainController implements Initializable {
 			place = Wetterstation.capitalizeFirstLetter(textfeld.getText().trim());
 			textfeld.setText(place);
 			//Wenn d eingegeben wird, wird place auf den Default-Wert gesetzt
-			if(place.equals("d")) place = defPlace;
-			System.out.print("Ort eingegeben! -> ");
-			System.out.println(place);
+			if(place.equals("d")||place.equals("D")) place = defPlace;
+			System.out.println("Ort eingegeben! -> "+ place);
 		}catch(Exception e) {
 			System.out.println("[MainController.Orteingabe,start] Fehler: "+e);
 			err.setVisible(true);
@@ -112,7 +129,7 @@ public class MainController implements Initializable {
 			date3.setText(Wetterstation.getWeekday(Wetterstation.Datum(3)));
 			date4.setText(Wetterstation.getWeekday(Wetterstation.Datum(4)));
 			date5.setText(Wetterstation.getWeekday(Wetterstation.Datum(5)));
-			
+
 			tomorrow.setText(Wetterstation.getWeekday(Wetterstation.Datum(1)));
 			twodays.setText(Wetterstation.getWeekday(Wetterstation.Datum(2)));
 			threedays.setText(Wetterstation.getWeekday(Wetterstation.Datum(3)));
