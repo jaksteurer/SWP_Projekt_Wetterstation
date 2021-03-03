@@ -13,23 +13,17 @@
 	-fx-border-color: #000000;
     -fx-border-radius: 8;
     -fx-border-width: 2;
-    
-    /* 
-    -fx-scale-y: 1;
-    -fx-opacity: 0.6;
-    */
+}
+
+#ddt{
+	-fx-background-color: #999999;
+	-fx-background-radius: 7;
 }
 
 .toggle-button{
 	-fx-text-fill: black;
-    -fx-background-color: rgba(153,153,153,0.6); /* #999999;*/
+    -fx-background-color: #999999; /*rgba(153,153,153,0.6); /* #999999;*/
 }
-/*
-.toggle-button:selected {
- 	-fx-text-fill: black;
-    -fx-background-color: rgba(153,153,153,0.8); /* #999999;
-}*/
-
 
 .textfield{
 	-fx-background-color: #999999; /*#ffffff = Weiﬂ, #5FA9FF = wie toolbar */
@@ -68,25 +62,4 @@
 	-fx-border-style: solid;
 	-fx-border-width: 0px;
 }
-
-
- /*
-.toggle-button {
-    -fx-text-fill: black;
-    -fx-base: transparent;
-    -fx-background-color: #0c00ff;
-    -fx-focus-color: transparent;
-    -fx-border-color: transparent;
-    -fx-effect: null;
-}
-
-.toggle-button:selected {
-    -fx-text-fill: black;
-    -fx-base: transparent;
-    -fx-background-color: #ff0000;
-    -fx-focus-color: transparent;
-    -fx-border-color: transparent;
-    -fx-effect: null;
-}*/
-
 

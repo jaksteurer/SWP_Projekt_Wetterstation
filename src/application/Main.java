@@ -11,7 +11,7 @@ public class Main  extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-
+			 
 			// Read file fxml and draw interface.
 			Parent root = FXMLLoader.load(getClass()
 					.getResource("./WeatherGUI.fxml"));
@@ -22,9 +22,12 @@ public class Main  extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	public static void main(String[] args) {
 		launch(args);
+		
+				
 	} 
 }

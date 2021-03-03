@@ -423,13 +423,18 @@
                </image>
             </ImageView>
          </children></Pane>
-      <ToggleButton fx:id="tb" layoutX="901.0" layoutY="15.0" mnemonicParsing="false" onAction="#tbPressed" prefHeight="40.0" prefWidth="65.0" stylesheets="@application.css" text="AT">
+      <ToggleButton fx:id="tb" layoutX="259.0" layoutY="15.0" mnemonicParsing="false" onAction="#tbPressed" prefHeight="40.0" prefWidth="65.0" stylesheets="@application.css" text="AT">
          <font>
-            <Font size="23.0" />
+            <Font size="18.0" />
          </font></ToggleButton>
-      <Label layoutX="840.0" layoutY="23.0" prefHeight="34.0" prefWidth="61.0" text="Land: ">
+      <Label layoutX="198.0" layoutY="18.0" prefHeight="34.0" prefWidth="61.0" text="Land: ">
          <font>
             <Font size="23.0" />
+         </font>
+      </Label>
+      <Label id="ddt" fx:id="ddt" alignment="CENTER" layoutX="848.0" layoutY="28.0" prefHeight="21.0" prefWidth="250.0" text="Donnerstag, 03.03.2021   19:00">
+         <font>
+            <Font name="System Bold" size="15.0" />
          </font>
       </Label>
    </children>

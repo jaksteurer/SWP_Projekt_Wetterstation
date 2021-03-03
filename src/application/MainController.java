@@ -4,17 +4,16 @@ import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
-import javax.swing.JToggleButton;
-
 import Wetterstation.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -48,7 +47,7 @@ public class MainController implements Initializable {
 	@FXML
 	private Button home, tomorrow, twodays, threedays, fourdays, fivedays;
 	@FXML
-	private Label dWindspeed, dPercip, dHumidity, dMaxT, dMinT, dPlace, fursache;
+	private Label dWindspeed, dPercip, dHumidity, dMaxT, dMinT, dPlace, ddt; //ddt = day,date,time
 	@FXML
 	private ImageView dImage;
 	@FXML
@@ -57,10 +56,16 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub	
+		//Tag, Datum und Uhrzeit wird angezeigt
+		//In dieser Klasse, da es dann sofort ausgeführt wird
+		DateFormat dt = new SimpleDateFormat("dd.MM.yyyy");
+		DateFormat time = new SimpleDateFormat("HH:mm");
+		String d= dt.format(new Date())+"   "+time.format(new Date());
+		ddt.setText(Wetterstation.getWeekday(Wetterstation.Datum(0))+", "+d); 
 	}
 
 	public void tbPressed() {	
+		//ToggleButtonHandler
 		if(tb.isSelected()) {
 			tb.setText("AT");
 			Wetterstation.land = "at";
@@ -129,12 +134,17 @@ public class MainController implements Initializable {
 			date3.setText(Wetterstation.getWeekday(Wetterstation.Datum(3)));
 			date4.setText(Wetterstation.getWeekday(Wetterstation.Datum(4)));
 			date5.setText(Wetterstation.getWeekday(Wetterstation.Datum(5)));
-
+			//Aus Datum wird der Tag berechnet und angezeigt
 			tomorrow.setText(Wetterstation.getWeekday(Wetterstation.Datum(1)));
 			twodays.setText(Wetterstation.getWeekday(Wetterstation.Datum(2)));
 			threedays.setText(Wetterstation.getWeekday(Wetterstation.Datum(3)));
 			fourdays.setText(Wetterstation.getWeekday(Wetterstation.Datum(4)));
 			fivedays.setText(Wetterstation.getWeekday(Wetterstation.Datum(5)));
+			//Tag, Datum und Uhrzeit wird angezeigt
+			DateFormat dt = new SimpleDateFormat("dd.MM.yyyy");
+			DateFormat time = new SimpleDateFormat("HH:mm");
+			String d= dt.format(new Date())+"   "+time.format(new Date());
+			ddt.setText(Wetterstation.getWeekday(Wetterstation.Datum(0))+", "+d); 
 			//#########################################################################################
 			//Hochladen der Daten
 			Wetterstation.insertToDatabase(con, place);
@@ -162,7 +172,10 @@ public class MainController implements Initializable {
 		}catch (java.lang.ClassCastException e) {
 			//catch wenn falsche Eingabe
 			System.out.println("[MainController.java.lang.ClassCastException,start] Fehler: "+e);
-			String msg = "Dieser Ort existiert in Österreich nicht!";
+			String msg ="";
+			if(Wetterstation.land.equals("at")) {
+				msg = "Dieser Ort existiert in Österreich nicht!";
+			}else msg = "Dieser Ort existiert in Deutschland nicht!";
 			errormsg.setText(String.valueOf(msg));
 			err.setVisible(true);
 			wData.setVisible(false);
