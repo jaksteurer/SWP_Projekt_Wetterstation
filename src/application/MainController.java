@@ -67,7 +67,7 @@ public class MainController implements Initializable {
 	}
 
 	public void tbPressed() {	
-		//ToggleButtonHandler
+		//ToggleButtonHandler DE,AT
 		if(tb.isSelected()) {
 			tb.setText("AT");
 			Wetterstation.land = "at";
@@ -77,7 +77,7 @@ public class MainController implements Initializable {
 		}
 	}
 
-	public void start(/*ActionEvent event*/) {
+	public void start() {
 		//#########################################################################################
 		//Konfigurationsdatei aufrufen wenn d als Ort eingegeben wird
 		ConfigFileReader confData = new ConfigFileReader();
