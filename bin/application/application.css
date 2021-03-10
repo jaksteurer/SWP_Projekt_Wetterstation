@@ -17,7 +17,13 @@
 
 #ddt{
 	-fx-background-color: #999999;
-	-fx-background-radius: 7;
+	-fx-background-radius: 0 7 7 0;
+	-fx-border-color: transparent transparent transparent black;
+}
+#t{
+	-fx-background-color: #999999;
+	-fx-background-radius: 7 0 0 7;
+	-fx-border-color: transparent black transparent transparent  ;
 }
 
 .toggle-button{

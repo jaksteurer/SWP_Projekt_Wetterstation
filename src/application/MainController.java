@@ -47,7 +47,7 @@ public class MainController implements Initializable {
 	@FXML
 	private Button home, tomorrow, twodays, threedays, fourdays, fivedays;
 	@FXML
-	private Label dWindspeed, dPercip, dHumidity, dMaxT, dMinT, dPlace, ddt; //ddt = day,date,time
+	private Label dWindspeed, dPercip, dHumidity, dMaxT, dMinT, dPlace, ddt, time; //ddt = day,date,time
 	@FXML
 	private ImageView dImage;
 	@FXML
@@ -59,9 +59,11 @@ public class MainController implements Initializable {
 		//Tag, Datum und Uhrzeit wird angezeigt
 		//In dieser Klasse, da es dann sofort ausgeführt wird
 		DateFormat dt = new SimpleDateFormat("dd.MM.yyyy");
-		DateFormat time = new SimpleDateFormat("HH:mm");
-		String d= dt.format(new Date())+"   "+time.format(new Date());
+		DateFormat tm = new SimpleDateFormat("HH:mm");
+		String d= dt.format(new Date());
+		String t = tm.format(new Date());
 		ddt.setText(Wetterstation.getWeekday(Wetterstation.Datum(0))+", "+d); 
+		time.setText(t);
 	}
 
 	public void tbPressed() {	
@@ -141,10 +143,13 @@ public class MainController implements Initializable {
 			fourdays.setText(Wetterstation.getWeekday(Wetterstation.Datum(4)));
 			fivedays.setText(Wetterstation.getWeekday(Wetterstation.Datum(5)));
 			//Tag, Datum und Uhrzeit wird angezeigt
+			//In dieser Klasse, da es dann sofort ausgeführt wird
 			DateFormat dt = new SimpleDateFormat("dd.MM.yyyy");
-			DateFormat time = new SimpleDateFormat("HH:mm");
-			String d= dt.format(new Date())+"   "+time.format(new Date());
+			DateFormat tm = new SimpleDateFormat("HH:mm");
+			String d= dt.format(new Date());
+			String t = tm.format(new Date());
 			ddt.setText(Wetterstation.getWeekday(Wetterstation.Datum(0))+", "+d); 
+			time.setText(t);
 			//#########################################################################################
 			//Hochladen der Daten
 			Wetterstation.insertToDatabase(con, place);

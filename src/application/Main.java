@@ -12,7 +12,7 @@ public class Main  extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			 
-			// Read file fxml and draw interface.
+			//Read file fxml and draw interface.
 			Parent root = FXMLLoader.load(getClass()
 					.getResource("./WeatherGUI.fxml"));
 			
