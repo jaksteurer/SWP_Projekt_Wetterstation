@@ -47,9 +47,9 @@ Die Applikation erschließt sich aus drei Fenstern (JavaFx: Panes).
 <a target="_blank"><img src=".github/pane-start.png" width="900px"></a><br>
 - Das zweite Fenster veranschaulicht die Wetterdaten mit passenden Bildern. Man sieht hier, dass die Eingabe über die Postleitzahl ebenfalls möglich ist (Österreich)<br>
 <a target="_blank"><img src=".github/pane-data-at.png" width="900px"></a><br>
-- Das gleiche hier für Deutschland<br>
-<a target="_blank"><img src=".github/pane-data-de.png" width="900px"></a><br>
 - Das dritte Fenster zeigt mehr Daten für die Prognose mit passenden Bildern<br>
+<a target="_blank"><img src=".github/pane-data-details-at.png" width="900px"></a><br>
+- Das gleiche hier für Deutschland<br>
 <a target="_blank"><img src=".github/pane-data-de.png" width="900px"></a><br>
 - Das vierte Fenster erscheint wenn ein ungültiger Ort eingegeben wurde oder dieser sich nicht in Östtereich befindet.<br>
 <a target="_blank"><img src=".github/pane-error.png" width="900px"></a>
