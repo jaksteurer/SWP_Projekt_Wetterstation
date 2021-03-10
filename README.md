@@ -32,13 +32,13 @@ Als Datenquelle wurden 2 APIs verwendet und das Userinterface wurde mithilfe von
 Die Applikation erschließt sich aus vier Fenstern.
 - Das erste Fenster dient zur Eingabe des gewünschten Ortes (Deutschland/Österreich):<br>
 <a target="_blank"><img src=".github/pane-start.png" width="900px"></a><br>
-- Das zweite Fenster veranschaulicht die Wetterdaten mit passenden Bildern. Man sieht hier, dass die Eingabe über die Postleitzahl ebenfalls möglich ist (Österreich)<br>
+- Das zweite Fenster veranschaulicht die Wetterdaten mit passenden Bildern. Man sieht hier, dass die Eingabe über die Postleitzahl ebenfalls möglich ist<br>
 <a target="_blank"><img src=".github/pane-data-at.png" width="900px"></a><br>
 - Das dritte Fenster zeigt mehr Daten für die Prognose mit passenden Bildern<br>
 <a target="_blank"><img src=".github/pane-data-details-at.png" width="900px"></a><br>
 - Das gleiche hier für Deutschland<br>
 <a target="_blank"><img src=".github/pane-data-de.png" width="900px"></a><br>
-- Das vierte Fenster erscheint wenn ein ungültiger Ort eingegeben wurde oder dieser sich nicht in Östtereich befindet.<br>
+- Das vierte Fenster erscheint wenn ein ungültiger Ort eingegeben wurde oder dieser sich nicht in Östtereich bzw. Deutschland befindet.<br>
 <a target="_blank"><img src=".github/pane-error.png" width="900px"></a>
 
 
